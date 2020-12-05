@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeMenuItem"
+        android:icon="@drawable/ic_cycling"
+        android:title="@string/home_menu_label" />
+    <item
+        android:id="@+id/rankingMenuItem"
+        android:icon="@drawable/ic_podium"
+        android:title="@string/ranking_icon_menu_label" />
+    <item
+        android:id="@+id/instructionMenuItem"
+        android:icon="@drawable/ic_read"
+        android:title="@string/game_instruction_menu_label" />
+    <item
+        android:id="@+id/aboutMenuItem"
+        android:icon="@drawable/ic_info"
+        android:title="@string/about_menu_label" />
+</menu>

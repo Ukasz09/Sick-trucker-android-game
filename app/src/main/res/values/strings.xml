@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BikeRidingGame</string>
+    <string name="ranking_icon_menu_label">Ranking</string>
+    <string name="game_instruction_menu_label">Game instruction</string>
+    <string name="about_menu_label">About</string>
+    <string name="home_menu_label">Home</string>
 </resources>
