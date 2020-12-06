@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InstructionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="instruction fragment work" />
 
+    <LinearLayout
+        android:layout_width="348dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingVertical="20dp">
+
+        <TextView
+            android:id="@+id/gameControlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingVertical="15sp"
+            android:text="GAME CONTROL"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/phoneUpImage"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/phone_up" />
+
+            <TextView
+                android:id="@+id/moveUpInstructionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Dynamically move your phone up to make a jump. Don't forget to use phone rotations as well"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/phoneRotateImage"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/phone_rotate" />
+
+            <TextView
+                android:id="@+id/rotateInstructionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Slightly rotate phone to control the acceleration, deceleration, and your tilt"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>
