@@ -11,4 +11,9 @@
     <string name="yes">Yes</string>
     <string name="exit_confirm_label">Do you really want to exit ?</string>
     <string name="play_btn">PLAY</string>
+    <string name="about_game_text">Put your helmet on, pass obstacles and</string>
+    <string name="go_get_some">GO GET SOME !</string>
+    <string name="author_text">Author: Łukasz Gajerski</string>
+    <string name="other_projects_text">You can find my other projects on my GitHub repository:</string>
+    <string name="github_link">www.github.com/Ukasz09</string>
 </resources>

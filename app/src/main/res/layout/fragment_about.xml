@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="348dp"
         android:layout_height="match_parent"
-        android:text="about fragment work" />
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingVertical="20dp">
 
+        <ImageView
+            android:id="@+id/authorLogo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/author_logo" />
+
+
+        <ImageView
+            android:id="@+id/gameLogoText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/game_logo_text" />
+
+        <TextView
+            android:id="@+id/aboutGameText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_game_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorLightText"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/aboutGameText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="@string/go_get_some"
+            android:textAlignment="center"
+            android:textColor="@color/colorLightText"
+            android:textFontWeight="700"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/authorText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/author_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorLightText"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/otherProjects"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/other_projects_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorLightText"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/githubLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="@string/github_link"
+            android:textAlignment="center"
+            android:textColor="@color/colorLightText" />
+
+
+    </LinearLayout>
 </FrameLayout>
