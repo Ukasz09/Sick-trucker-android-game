@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RankingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Ranking fragment work" />
+        android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/record_side_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="35dp"
+            >
+
+            <TextView
+                android:id="@+id/gameControlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingVertical="25sp"
+                android:text="@string/game_ranking_header"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="20sp" />
+
+            <ListView
+                android:id="@+id/rankingListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

@@ -16,4 +16,8 @@
     <string name="author_text">Author: Łukasz Gajerski</string>
     <string name="other_projects_text">You can find my other projects on my GitHub repository:</string>
     <string name="github_link">www.github.com/Ukasz09</string>
+    <string name="game_control_header">GAME CONTROL</string>
+    <string name="move_up_instruction_text">Dynamically move your phone up to make a jump. Don\'t forget to use phone rotations as well</string>
+    <string name="rotate_instruction_text">Slightly rotate phone to control the acceleration, deceleration, and your tilt</string>
+    <string name="game_ranking_header">GAME RANKING</string>
 </resources>
