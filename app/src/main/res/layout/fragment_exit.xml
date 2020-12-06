@@ -44,7 +44,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/gradient_red"
                 android:text="@string/yes"
-                android:textColor="@color/colorDangerLight"
+                android:textColor="@color/colorLightText"
                 android:textFontWeight="700"
                 android:onClick="closeApp"
                 />
@@ -57,7 +57,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/gradient_primary"
                 android:text="@string/no"
-                android:textColor="@color/colorPrimaryLight"
+                android:textColor="@color/colorLightText"
                 android:textFontWeight="700"
                 android:onClick="replaceFragmentToHome"
                 />
