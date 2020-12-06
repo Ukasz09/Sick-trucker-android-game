@@ -13,6 +13,7 @@ import android.widget.ListView;
 import swim.pwr.bikeridinggame.models.UserRecordModel;
 
 public class RankingFragment extends Fragment {
+    //TODO: tmp mocked
     public static UserRecordModel[] userRecords = {
             new UserRecordModel("author_logo", "John", 324),
             new UserRecordModel("author_logo", "Stasi", 23),
