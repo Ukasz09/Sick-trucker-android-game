@@ -16,4 +16,9 @@
         android:id="@+id/aboutMenuItem"
         android:icon="@drawable/ic_info"
         android:title="@string/about_menu_label" />
+
+    <item
+        android:id="@+id/exitMenuItem"
+        android:icon="@drawable/ic_exit_door"
+        android:title="@string/exit_menu_label" />
 </menu>

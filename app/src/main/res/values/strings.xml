@@ -4,4 +4,10 @@
     <string name="game_instruction_menu_label">Game instruction</string>
     <string name="about_menu_label">About</string>
     <string name="home_menu_label">Home</string>
+    <string name="exit_menu_label">Exit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="exit_confirm_label">Do you really want to exit ?</string>
 </resources>

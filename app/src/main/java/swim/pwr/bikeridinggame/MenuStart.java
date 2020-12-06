@@ -2,6 +2,7 @@ package swim.pwr.bikeridinggame;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,54 +11,70 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MenuStart extends FragmentActivity {
+public class MenuStart extends FragmentActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_start);
-
-        BottomNavigationView navigation = findViewById(R.id.mainNavigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        observeNavigationView();
         loadFragment(new HomeFragment());
     }
 
+    private void observeNavigationView() {
+        navigation = findViewById(R.id.mainNavigation);
+        navigation.setOnNavigationItemSelectedListener(this);
+    }
 
-    //TODO: separate to new class
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return replaceActivity(item.getItemId());
+    }
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.homeMenuItem:
-                    fragment = new HomeFragment();
-                    loadFragment(fragment);
-                    return true;
-                case R.id.rankingMenuItem: {
-                    fragment = new RankingFragment();
-                    loadFragment(fragment);
-                    return true;
-                }
-                case R.id.instructionMenuItem: {
-                    fragment = new InstructionFragment();
-                    loadFragment(fragment);
-                    return true;
-                }
-                case R.id.aboutMenuItem: {
-                    fragment = new AboutFragment();
-                    loadFragment(fragment);
-                    return true;
-                }
+    private boolean replaceActivity(int itemId) {
+        Fragment fragment;
+        switch (itemId) {
+            case R.id.homeMenuItem:
+                fragment = new HomeFragment();
+                loadFragment(fragment);
+                return true;
+            case R.id.rankingMenuItem: {
+                fragment = new RankingFragment();
+                loadFragment(fragment);
+                return true;
             }
-            return false;
+            case R.id.instructionMenuItem: {
+                fragment = new InstructionFragment();
+                loadFragment(fragment);
+                return true;
+            }
+            case R.id.aboutMenuItem: {
+                fragment = new AboutFragment();
+                loadFragment(fragment);
+                return true;
+            }
+            case R.id.exitMenuItem: {
+                fragment = new ExitFragment();
+                loadFragment(fragment);
+                return true;
+            }
         }
-    };
+        return false;
+    }
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frameContainer, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void closeApp(View view) {
+        finish();
+    }
+
+    public void replaceFragmentToHome(View view) {
+        navigation.setSelectedItemId(R.id.homeMenuItem);
     }
 }

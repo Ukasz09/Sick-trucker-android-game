@@ -8,4 +8,7 @@
     <color name="colorDividerText">#BDBDBD</color>
     <color name="colorLightText">#FFFFFF</color>
     <color name="colorAccent">#795548</color>
+    <color name="colorDangerDark">#D32F2F</color>
+    <color name="colorDanger">#F44336</color>
+    <color name="colorDangerLight">#FFCDD2</color>
 </resources>
