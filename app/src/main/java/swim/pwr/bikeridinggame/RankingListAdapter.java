@@ -30,7 +30,7 @@ public class RankingListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return RankingFragment.userRecords.length;
+        return RankingFragment.userRecords.size();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class RankingListAdapter extends BaseAdapter {
     }
 
     private void setProperRankingView(int position) {
-        UserRecordModel userRecord = RankingFragment.userRecords[position];
+        UserRecordModel userRecord = RankingFragment.userRecords.get(position);
         //TODO: change to getting image from url
         String rank = String.valueOf(position + 1);
         rankingView.playerRank.setText(rank);
