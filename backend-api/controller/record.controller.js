@@ -1,20 +1,13 @@
 const db = require("../models");
-const Ranking = db.ranking;
+const Records = db.records;
 
-//Find all items with filters
 exports.findAll = (req, res) => {
   const { sort } = req.query;
-  let query = {};
   let sort_param = {};
-  if (sort) {
-    sort_param = { travelledMeters: sort };
-  } else {
-    sort_param = { createdAt: "desc" };
-  }
-  console.log(Ranking);
-  //TODO: change to async
-  //   Ranking.find(query)
-  Ranking.find({})
+  if (sort) sort_param = { travelledMeters: sort };
+  else sort_param = { createdAt: "desc" };
+
+  Records.find({})
     .sort(sort_param)
     .then((data) => {
       res.send(data);

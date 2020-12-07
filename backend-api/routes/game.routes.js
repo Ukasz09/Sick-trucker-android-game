@@ -3,6 +3,5 @@ module.exports = (app) => {
   var router = require("express").Router();
 
   router.get("/", items.findAll);
-
-  app.use("/api/ranking", router);
+  app.use("/api/records", router);
 };

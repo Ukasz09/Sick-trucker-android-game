@@ -2,21 +2,22 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const db = require("./models");
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = require("./models");
+db.mongoose.set("debug", true);
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to the database!"))
+  .then(() => console.log(`Connected database at URL:${db.url}`))
   .catch((err) => {
-    console.log("Cannot connect to the database!", err);
+    console.error("Cannot connect to the database!", err);
     process.exit();
   });
 

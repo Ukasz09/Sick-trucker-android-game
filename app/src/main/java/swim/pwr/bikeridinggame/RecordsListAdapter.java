@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import swim.pwr.bikeridinggame.models.UserRecordModel;
 
-public class RankingListAdapter extends BaseAdapter {
+public class RecordsListAdapter extends BaseAdapter {
     private static class RankingView {
         public TextView playerRank;
         public ImageView logo;
@@ -23,7 +23,7 @@ public class RankingListAdapter extends BaseAdapter {
     private RankingView rankingView;
     private LayoutInflater inflater;
 
-    public RankingListAdapter(Context context) {
+    public RecordsListAdapter(Context context) {
         this.context = context;
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
