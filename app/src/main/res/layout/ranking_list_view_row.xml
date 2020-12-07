@@ -47,9 +47,9 @@
             <TextView
                 android:id="@+id/travelledText"
                 android:layout_width="125dp"
-                android:layout_height="wrap_content"
-                android:background="@color/colorTextDark"
-                android:textAlignment="textEnd"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center_vertical"
                 android:paddingRight="50dp"
                 android:text="travelled meters placeholder"
                 android:textColor="@color/colorPrimary"
