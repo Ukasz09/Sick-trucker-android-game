@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,6 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
 import swim.pwr.bikeridinggame.data.Endpoints;
 import swim.pwr.bikeridinggame.models.UserRecordModel;
@@ -38,11 +44,13 @@ public class RecordsListAdapter extends BaseAdapter {
     private RankingView rankingView;
     private LayoutInflater inflater;
     private RequestQueue mRequestQueue;
+    private DataFetchingObserver dataFetchingObserver;
     public static ArrayList<UserRecordModel> userRecords = new ArrayList<>();
 
 
-    public RecordsListAdapter(Context context) {
+    public RecordsListAdapter(Context context, DataFetchingObserver observer) {
         this.context = context;
+        this.dataFetchingObserver = observer;
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRequestQueue = Volley.newRequestQueue(context);
         userRecords.clear();
@@ -84,11 +92,10 @@ public class RecordsListAdapter extends BaseAdapter {
     private class RecordsErrorResponseListener implements Response.ErrorListener {
         @Override
         public void onErrorResponse(VolleyError error) {
-            System.err.println(error);
+            dataFetchingObserver.onDataFetchingError(error.getMessage());
             VolleyLog.e("Error while reading records data: ", error.getMessage());
         }
     }
-
 
     @Override
     public int getCount() {

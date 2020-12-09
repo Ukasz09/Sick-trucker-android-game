@@ -5,8 +5,6 @@
     <string name="about_menu_label">About</string>
     <string name="home_menu_label">Home</string>
     <string name="exit_menu_label">Exit</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="exit_confirm_label">Do you really want to exit ?</string>
@@ -20,4 +18,8 @@
     <string name="move_up_instruction_text">Dynamically move your phone up to make a jump. Don\'t forget to use phone rotations as well</string>
     <string name="rotate_instruction_text">Slightly rotate phone to control the acceleration, deceleration, and your tilt</string>
     <string name="game_ranking_header">GAME RANKING</string>
+    <string name="data_fetching_error_text">Data fetching error:</string>
+    <string name="choose_nick_text">Choose your nick:</string>
+    <string name="nick_placeholder">Your nick ...</string>
+    <string name="incorrect_nick_text">Incorrect nick</string>
 </resources>

@@ -1,5 +1,6 @@
 package swim.pwr.bikeridinggame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,5 +77,10 @@ public class MenuStart extends FragmentActivity implements BottomNavigationView.
 
     public void replaceFragmentToHome(View view) {
         navigation.setSelectedItemId(R.id.homeMenuItem);
+    }
+
+    public void openNickChooseActivity(View view) {
+        final Intent intent = new Intent(this, NickChoseActivity.class);
+        startActivity(intent);
     }
 }

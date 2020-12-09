@@ -22,8 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingHorizontal="35dp"
-            >
+            android:paddingHorizontal="35dp">
 
             <TextView
                 android:id="@+id/gameControlHeader"
@@ -35,6 +34,35 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryLight"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dataFetchingError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:text="@string/data_fetching_error_text"
+                android:textAlignment="center"
+                android:textColor="@color/colorDanger"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dataFetchingErrorDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="error msg"
+                android:textAlignment="center"
+                android:textColor="@color/colorDangerDark"
+                android:textSize="12sp" />
+
+            <ProgressBar
+                android:id="@+id/rankingDataLoadingSpinner"
+                android:layout_width="100dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="visible" />
 
             <ListView
                 android:id="@+id/rankingListView"
