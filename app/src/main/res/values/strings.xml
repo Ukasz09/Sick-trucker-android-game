@@ -22,4 +22,5 @@
     <string name="choose_nick_text">Choose your nick:</string>
     <string name="nick_placeholder">Your nick ...</string>
     <string name="incorrect_nick_text">Incorrect nick</string>
+    <string name="choose_logo_text">Choose your logo:</string>
 </resources>

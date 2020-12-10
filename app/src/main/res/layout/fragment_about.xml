@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingVertical="20dp">
+        android:paddingVertical="10dp">
 
         <ImageView
             android:id="@+id/authorLogo"
@@ -41,7 +41,7 @@
             android:id="@+id/aboutGameText2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"
+            android:layout_marginVertical="10dp"
             android:text="@string/go_get_some"
             android:textAlignment="center"
             android:textColor="@color/colorDividerText"

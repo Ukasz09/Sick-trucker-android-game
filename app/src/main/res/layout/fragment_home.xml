@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/gameLogo"
             android:layout_width="459dp"
-            android:layout_height="319dp"
+            android:layout_height="300dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/game_logo"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -23,7 +23,7 @@
         <Button
             android:id="@+id/yes_label"
             android:layout_width="150dp"
-            android:layout_height="25dp"
+            android:layout_height="35dp"
             android:layout_marginBottom="176dp"
             android:background="@drawable/gradient_primary"
             android:text="@string/play_btn"

@@ -1,6 +1,7 @@
 package swim.pwr.bikeridinggame;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.regex.Pattern;
 
-public class NickChoseActivity extends Activity {
+public class NickChose extends Activity {
     private static String nickRegex = "^[^0-9]\\w+$";
     private EditText nickText;
     private TextView incorrectNick;
@@ -27,7 +28,12 @@ public class NickChoseActivity extends Activity {
         String nick = nickText.getText().toString();
         if (!nickIsValid(nick))
             incorrectNick.setVisibility(View.VISIBLE);
-        else incorrectNick.setVisibility(View.INVISIBLE);
+        else {
+            incorrectNick.setVisibility(View.INVISIBLE);
+            UserData.nick = nick;
+            final Intent intent = new Intent(this, LogoChose.class);
+            startActivity(intent);
+        }
     }
 
     private boolean nickIsValid(String nick) {

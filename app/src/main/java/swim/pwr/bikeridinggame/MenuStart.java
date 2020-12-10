@@ -80,7 +80,7 @@ public class MenuStart extends FragmentActivity implements BottomNavigationView.
     }
 
     public void openNickChooseActivity(View view) {
-        final Intent intent = new Intent(this, NickChoseActivity.class);
+        final Intent intent = new Intent(this, NickChose.class);
         startActivity(intent);
     }
 }
