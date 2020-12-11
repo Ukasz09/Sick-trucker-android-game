@@ -79,7 +79,7 @@ public class RecordsListAdapter extends BaseAdapter {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            notifyDataSetChanged();
+            dataFetchingObserver.onDataFetched();
         }
     }
 

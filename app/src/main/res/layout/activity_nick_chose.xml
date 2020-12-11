@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingVertical="15dp"
-        android:hint="@string/choose_nick_text"
+        android:text="@string/choose_nick_text"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/colorDividerText"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -34,7 +34,7 @@
             android:lines="1"
             android:maxLength="15"
             android:maxLines="1"
-            android:text="@string/nick_placeholder"
+            android:hint="@string/nick_placeholder"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="15sp" />
@@ -64,6 +64,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:paddingTop="30dp"
+        android:paddingTop="10dp"
         android:src="@drawable/nick_page_image" />
 </LinearLayout>

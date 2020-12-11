@@ -18,9 +18,10 @@
     <string name="move_up_instruction_text">Dynamically move your phone up to make a jump. Don\'t forget to use phone rotations as well</string>
     <string name="rotate_instruction_text">Slightly rotate phone to control the acceleration, deceleration, and your tilt</string>
     <string name="game_ranking_header">GAME RANKING</string>
-    <string name="data_fetching_error_text">Data fetching error:</string>
+    <string name="data_fetching_error_text">Data fetching error</string>
     <string name="choose_nick_text">Choose your nick:</string>
-    <string name="nick_placeholder">Your nick ...</string>
+    <string name="nick_placeholder">Your nick </string>
     <string name="incorrect_nick_text">Incorrect nick</string>
     <string name="choose_logo_text">Choose your logo:</string>
+    <string name="unknown_nick">unknown_nick</string>
 </resources>
