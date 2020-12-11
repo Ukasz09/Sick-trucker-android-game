@@ -42,10 +42,10 @@ public class RankingFragment extends Fragment implements DataFetchingObserver {
 
     @Override
     public void onDataFetchingError(String errorMsg) {
-        dataFetchingErrorDetails.setText(errorMsg);
         progressBar.setVisibility(View.GONE);
         dataFetchingError.setVisibility(View.VISIBLE);
         dataFetchingErrorDetails.setVisibility(View.VISIBLE);
+        dataFetchingErrorDetails.setText(errorMsg);
     }
 
     @Override

@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/DarkTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Game"></activity>
+        <activity
+            android:name=".Game"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".LogoChose"
             android:screenOrientation="landscape" />
