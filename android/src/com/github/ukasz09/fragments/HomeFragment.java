@@ -1,16 +1,18 @@
-package com.github.ukasz09;
+package com.github.ukasz09.fragments;
 
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
+
+import com.github.ukasz09.R;
 
 public class HomeFragment extends Fragment {
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override

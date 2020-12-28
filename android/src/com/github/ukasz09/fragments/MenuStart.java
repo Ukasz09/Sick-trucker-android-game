@@ -1,4 +1,4 @@
-package com.github.ukasz09;
+package com.github.ukasz09.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.github.ukasz09.R;
+import com.github.ukasz09.activities.NickChose;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MenuStart extends FragmentActivity implements BottomNavigationView.OnNavigationItemSelectedListener {

@@ -1,9 +1,10 @@
-package com.github.ukasz09;
+package com.github.ukasz09.activities;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.github.ukasz09.GameApp;
 
 public class GameLauncher extends AndroidApplication {
 

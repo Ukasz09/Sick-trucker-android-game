@@ -14,7 +14,7 @@ public class Player {
     public static final float PLAYER_WIDTH_METERS = 3, PLAYER_HEIGHT_METERS = 2;
     private static final int MOVE_FRAMES_COLUMNS = 5, IDLE_FRAME_COLUMNS = 3, FRAME_ROWS = 1;
     private static final float PLAYER_DENSITY = 1.0f;
-    public static final float MOVING_FORCE = 12f;
+    public static final float MOVING_FORCE = 11f;
     public static final String MOVING_SHEET_PATH = "sheets/monster-move.png";
     public static final String IDLE_SHEET_PATH = "sheets/monster-idle.png";
     private static final float PLAYER_START_X = 60f;

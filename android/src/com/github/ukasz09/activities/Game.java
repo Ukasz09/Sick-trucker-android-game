@@ -1,4 +1,4 @@
-package com.github.ukasz09;
+package com.github.ukasz09.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.ukasz09.fragments.MenuStart;
+import com.github.ukasz09.R;
 import com.github.ukasz09.player.Player;
 
 public class Game extends Activity {

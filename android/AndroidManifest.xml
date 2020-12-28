@@ -14,26 +14,28 @@
         android:theme="@style/DarkTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Game"
+            android:name=".activities.Game"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".LogoChose"
+            android:name=".activities.LogoChose"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".NickChose"
+            android:name=".activities.NickChose"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".GameLauncher"
+            android:name=".activities.GameLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".fragments.MenuStart"
             android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity
-            android:name=".MenuStart"
-            android:screenOrientation="landscape"></activity>
 
     </application>
 </manifest>

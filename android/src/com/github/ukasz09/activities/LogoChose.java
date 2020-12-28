@@ -1,10 +1,11 @@
-package com.github.ukasz09;
+package com.github.ukasz09.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.github.ukasz09.R;
 import com.github.ukasz09.player.Player;
 
 public class LogoChose extends Activity {
