@@ -26,6 +26,7 @@ public class GameApp extends ApplicationAdapter {
     private static final float GRAVITY_VELOCITY_X = 0f;
     private static final float ROTATION_DEGREES_THRESHOLD = 5f;
     private static final float FALLING_FORCE_Y = -5f;
+    public static final double DEGREES_TO_RADIANS = Math.PI / 180;
 
     private static final String MAP_PATH = "map/sick-biker-map.tmx";
 
@@ -54,7 +55,7 @@ public class GameApp extends ApplicationAdapter {
     private void initWorld() {
         Vector2 gravityVector = new Vector2(GRAVITY_VELOCITY_X, GRAVITY_VELOCITY_Y);
         world = new World(gravityVector, false);
-        world.setContactListener(new WorldContactListener(world));
+        world.setContactListener(new WorldContactListener());
         tiledMap = new TmxMapLoader().load(MAP_PATH);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         MapParser.parseMapLayers(world, tiledMap);
@@ -178,7 +179,7 @@ public class GameApp extends ApplicationAdapter {
 
     private void rotatePlayer(float rotationDegrees) {
         player.setRotationDegrees(rotationDegrees);
-        float radians = (float) (rotationDegrees * WorldContactListener.DEGREES_TO_RADIANS);
+        float radians = (float) (rotationDegrees * DEGREES_TO_RADIANS);
         player.getBody().setTransform(player.getBody().getWorldCenter(), radians);
     }
 }
