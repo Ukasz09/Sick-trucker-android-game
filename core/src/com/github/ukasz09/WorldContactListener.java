@@ -56,12 +56,12 @@ public class WorldContactListener implements ContactListener {
         Fixture fb = cntct.getFixtureB();
         if (fa == null || fb == null) return;
         if (fa.getUserData() == null || fb.getUserData() == null) return;
+        PlayerTruck playerTruck = (PlayerTruck) fb.getUserData();
         if (isGroundContact(fa, fb)) {
-            PlayerTruck playerTruck = (PlayerTruck) fb.getUserData();
             playerTruck.setJumping(true);
-        }
+        } else playerTruck.setJumping(false);
+
         if (isDangerContact(fa, fb)) {
-            PlayerTruck playerTruck = (PlayerTruck) fb.getUserData();
             playerTruck.setJumping(true);
         }
     }

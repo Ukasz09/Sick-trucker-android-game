@@ -24,6 +24,8 @@ public class SickBikerGame extends ApplicationAdapter {
     private static final int POSITION_ITERATIONS = 2;
     private static final float GRAVITY_VELOCITY_Y = -30f;
     private static final float GRAVITY_VELOCITY_X = 0f;
+    private static final float ROTATION_DEGREES_THRESHOLD = 5f;
+
     private static final String MAP_PATH = "map/sick-biker-map.tmx";
 
     private OrthographicCamera camera;
@@ -126,26 +128,18 @@ public class SickBikerGame extends ApplicationAdapter {
 
 
     private void inputUpdate() {
-        int horizontalForce = 0;
-        boolean isJumping = false;
-        if (Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            touchPos = camera.unproject(touchPos);
-            if (touchPos.x / PIXEL_PER_METER > playerTruck.getBody().getPosition().x) {
-                horizontalForce += 1;
-                playerTruck.setMoving(true);
-            } else if (touchPos.x / PIXEL_PER_METER < playerTruck.getBody().getPosition().x) {
-                horizontalForce -= 1;
-                playerTruck.setMoving(true);
-            }
-//            if (touchPos.y / PIXEL_PER_METER > player.getBody().getPosition().y && !player.isJumping())
-//                isJumping = true;
-        } else playerTruck.setMoving(false);
-        playerUpdate(horizontalForce, isJumping);
+        if (Gdx.input.isTouched())
+            touchInputUpdate();
+        else {
+//            if (!playerTruck.isJumping()) {
+//                playerUpdate(0);
+//            }
+            playerTruck.setPressedGasPedal(false);
+        }
 
-//        float angle = (float) (45*WorldContactListener.DEGREES_TO_RADIANS);
-        float newRotation = Gdx.input.getAccelerometerY() * (-10);
-        if (Math.abs(Math.abs(playerTruck.getRotation()) - Math.abs(newRotation)) > 5) {
+
+        float newRotation = calcNewRotation();
+        if (Math.abs(Math.abs(playerTruck.getRotation()) - Math.abs(newRotation)) > ROTATION_DEGREES_THRESHOLD) {
             playerTruck.setRotation(newRotation);
             playerTruck.getBody().setTransform(playerTruck.getBody().getWorldCenter(),
                     (float) ((-10) * Gdx.input.getAccelerometerY() * WorldContactListener.DEGREES_TO_RADIANS));
@@ -158,8 +152,28 @@ public class SickBikerGame extends ApplicationAdapter {
 //        }
     }
 
+    private float calcNewRotation() {
+        return Gdx.input.getAccelerometerY() * (-10);
+    }
 
-    private void playerUpdate(int horizontalForce, boolean isJumping) {
+    private void touchInputUpdate() {
+        int horizontalForce = 0;
+        Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        touchPos = camera.unproject(touchPos);
+        if (touchPos.x / PIXEL_PER_METER > playerTruck.getBody().getPosition().x) {
+            horizontalForce += 1;
+            playerTruck.setPressedGasPedal(true);
+        }
+        if (touchPos.x / PIXEL_PER_METER < playerTruck.getBody().getPosition().x) {
+            horizontalForce -= 1;
+            playerTruck.setPressedGasPedal(true);
+        }
+//            if (touchPos.y / PIXEL_PER_METER > player.getBody().getPosition().y && !player.isJumping())
+//                isJumping = true;
+        playerUpdate(horizontalForce);
+    }
+
+    private void playerUpdate(int horizontalForce) {
         if (playerTruck.isDead()) {
             world.destroyBody(playerTruck.getBody());
             float playerTextureProportionXToY = (float) (texture.getWidth()) / (float) (texture.getHeight());
@@ -167,11 +181,13 @@ public class SickBikerGame extends ApplicationAdapter {
             playerTruck = new PlayerTruck(world, PIXEL_PER_METER);
 
         }
-        if (isJumping)
-            playerTruck.getBody().applyForceToCenter(0, PlayerTruck.JUMP_FORCE, false);
 
+        //FIXME:
+        if (playerTruck.getLastPositionX() != playerTruck.getBody().getPosition().x)
+            playerTruck.getBody().setLinearVelocity(horizontalForce * PlayerTruck.RUN_FORCE, playerTruck.getBody().getLinearVelocity().y);
+        else
+            playerTruck.getBody().setLinearVelocity(horizontalForce * PlayerTruck.RUN_FORCE, -5f);
 
-        playerTruck.getBody().setLinearVelocity(horizontalForce * PlayerTruck.RUN_FORCE, playerTruck.getBody().getLinearVelocity().y);
     }
 
 }

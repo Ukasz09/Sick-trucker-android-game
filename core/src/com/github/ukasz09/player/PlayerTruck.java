@@ -1,10 +1,8 @@
 package com.github.ukasz09.player;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -36,6 +34,11 @@ public class PlayerTruck {
     private float width_px; //TODO: get rid of
     private float height_px; //TODO: get rid of
     private float pixelPerMeter;
+    private float lastPositionX = 0f;
+
+    public float getLastPositionX() {
+        return lastPositionX;
+    }
 
     public float getRotation() {
         return rotation;
@@ -53,6 +56,7 @@ public class PlayerTruck {
         this.height_px = PLAYER_HEIGHT_METERS * pixelPerMeter;
         this.pixelPerMeter = pixelPerMeter;
         createBoxBody(world, PLAYER_START_X, PLAYER_START_Y, this.width_px, this.height_px);
+        lastPositionX = getBody().getPosition().x;
         createAnimation();
     }
 
@@ -121,11 +125,14 @@ public class PlayerTruck {
 
     private boolean isJumping = false;
     private boolean isDead = false;
-    private boolean isMoving = false;
+    private boolean isPressedGasPedal = true;
 
-    public void setMoving(boolean moving) {
-        isMoving = moving;
+    public void setPressedGasPedal(boolean isPressed) {
+        isPressedGasPedal = isPressed;
     }
+//    public void setIdle(boolean idle) {
+//        isIdle = idle;
+//    }
 
     public void hit() {
         isDead = true;
@@ -146,8 +153,10 @@ public class PlayerTruck {
 
     public void act(float delta) {
         stateTime += delta;
-        if (isMoving)
+        if (lastPositionX != getBody().getPosition().x || isPressedGasPedal)
             region = moveAnimation.getKeyFrame(stateTime, true);
         else region = idleAnimation.getKeyFrame(stateTime, true);
+
+        lastPositionX = getBody().getPosition().x;
     }
 }
