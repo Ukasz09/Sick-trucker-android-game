@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.ukasz09.map.MapParser;
-import com.github.ukasz09.player.PlayerTruck;
+import com.github.ukasz09.player.Player;
 
 public class GameApp extends ApplicationAdapter {
     private static final float CAMERA_ZOOM = 4.0f;
@@ -32,7 +32,7 @@ public class GameApp extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
     private World world;
-    private PlayerTruck playerTruck;
+    private Player player;
     private SpriteBatch batch;
     private Texture texture;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -63,11 +63,11 @@ public class GameApp extends ApplicationAdapter {
     private void initTextures() {
         box2DDebugRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
-        texture = new Texture(PlayerTruck.MOVING_SHEET_PATH);
+        texture = new Texture(Player.MOVING_SHEET_PATH);
     }
 
     private void initPlayerTruck() {
-        playerTruck = new PlayerTruck(world, PIXEL_PER_METER);
+        player = new Player(world, PIXEL_PER_METER);
     }
 
     @Override
@@ -87,13 +87,13 @@ public class GameApp extends ApplicationAdapter {
         cameraUpdate();
         tiledMapRenderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
-        playerTruck.updateAnimation(1 / 200f); //TODO:
+        player.updateAnimation(1 / 200f); //TODO:
     }
 
     private void cameraUpdate() {
         Vector3 position = camera.position;
-        position.x = playerTruck.getBody().getPosition().x * PIXEL_PER_METER;
-        position.y = playerTruck.getBody().getPosition().y * PIXEL_PER_METER;
+        position.x = player.getBody().getPosition().x * PIXEL_PER_METER;
+        position.y = player.getBody().getPosition().y * PIXEL_PER_METER;
         camera.position.set(position);
         camera.update();
     }
@@ -103,12 +103,12 @@ public class GameApp extends ApplicationAdapter {
     }
 
     private void drawPlayer() {
-        float truckPositionX = playerTruck.getBody().getPosition().x * PIXEL_PER_METER - (playerTruck.getWidthPx() / 2);
-        float truckPositionY = playerTruck.getBody().getPosition().y * PIXEL_PER_METER - (playerTruck.getHeightPx() / 2);
-        float truckOriginX = playerTruck.getWidthPx() / 2;
-        float truckOriginY = playerTruck.getHeightPx() / 2;
-        batch.draw(playerTruck.getRegion(), truckPositionX, truckPositionY, truckOriginX, truckOriginY, playerTruck.getWidthPx(), playerTruck.getHeightPx(), 1.2f, 1.2f,
-                playerTruck.getRotationDegrees()
+        float truckPositionX = player.getBody().getPosition().x * PIXEL_PER_METER - (player.getWidthPx() / 2);
+        float truckPositionY = player.getBody().getPosition().y * PIXEL_PER_METER - (player.getHeightPx() / 2);
+        float truckOriginX = player.getWidthPx() / 2;
+        float truckOriginY = player.getHeightPx() / 2;
+        batch.draw(player.getRegion(), truckPositionX, truckPositionY, truckOriginX, truckOriginY, player.getWidthPx(), player.getHeightPx(), 1.2f, 1.2f,
+                player.getRotationDegrees()
         );
     }
 
@@ -132,7 +132,7 @@ public class GameApp extends ApplicationAdapter {
         if (Gdx.input.isTouched())
             onTouchPositionUpdate();
         else {
-            playerTruck.setPressedGasPedal(false);
+            player.setPressedGasPedal(false);
         }
         float newRotation = calcNewRotation();
         if (needToRotate(newRotation)) {
@@ -141,29 +141,29 @@ public class GameApp extends ApplicationAdapter {
     }
 
     private void onTouchPositionUpdate() {
-        playerTruck.setPressedGasPedal(true);
+        player.setPressedGasPedal(true);
         int horizontalForce = 0;
         Vector3 touchPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         touchPosition = camera.unproject(touchPosition);
-        if (touchPosition.x / PIXEL_PER_METER > playerTruck.getBody().getPosition().x) {
+        if (touchPosition.x / PIXEL_PER_METER > player.getBody().getPosition().x) {
             horizontalForce++;
         }
-        if (touchPosition.x / PIXEL_PER_METER < playerTruck.getBody().getPosition().x) {
+        if (touchPosition.x / PIXEL_PER_METER < player.getBody().getPosition().x) {
             horizontalForce--;
         }
         playerTruckUpdate(horizontalForce);
     }
 
     private void playerTruckUpdate(int horizontalForce) {
-        if (playerTruck.isDestroyed()) {
-            world.destroyBody(playerTruck.getBody());
+        if (player.isDestroyed()) {
+            world.destroyBody(player.getBody());
             initPlayerTruck();
         } else {
-            float velocityX = horizontalForce * PlayerTruck.MOVING_FORCE;
-            if (playerTruck.isMovingHorizontally())
-                playerTruck.getBody().setLinearVelocity(velocityX, playerTruck.getBody().getLinearVelocity().y);
+            float velocityX = horizontalForce * Player.MOVING_FORCE;
+            if (player.isMovingHorizontally())
+                player.getBody().setLinearVelocity(velocityX, player.getBody().getLinearVelocity().y);
             else
-                playerTruck.getBody().setLinearVelocity(velocityX, FALLING_FORCE_Y);
+                player.getBody().setLinearVelocity(velocityX, FALLING_FORCE_Y);
         }
     }
 
@@ -172,13 +172,13 @@ public class GameApp extends ApplicationAdapter {
     }
 
     private boolean needToRotate(float newRotation) {
-        float rotationDiff = Math.abs(playerTruck.getRotationDegrees()) - Math.abs(newRotation);
+        float rotationDiff = Math.abs(player.getRotationDegrees()) - Math.abs(newRotation);
         return Math.abs(rotationDiff) > ROTATION_DEGREES_THRESHOLD;
     }
 
     private void rotatePlayer(float rotationDegrees) {
-        playerTruck.setRotationDegrees(rotationDegrees);
+        player.setRotationDegrees(rotationDegrees);
         float radians = (float) (rotationDegrees * WorldContactListener.DEGREES_TO_RADIANS);
-        playerTruck.getBody().setTransform(playerTruck.getBody().getWorldCenter(), radians);
+        player.getBody().setTransform(player.getBody().getWorldCenter(), radians);
     }
 }

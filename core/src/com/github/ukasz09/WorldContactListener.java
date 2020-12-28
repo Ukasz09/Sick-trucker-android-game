@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.ukasz09.map.mapObjects.DangerZone;
 import com.github.ukasz09.map.mapObjects.Ground;
-import com.github.ukasz09.player.PlayerTruck;
+import com.github.ukasz09.player.Player;
 
 public class WorldContactListener implements ContactListener {
 
@@ -28,7 +28,7 @@ public class WorldContactListener implements ContactListener {
         if (fa == null) {
             return;
         }
-        PlayerTruck playerTruck = (PlayerTruck) fb.getUserData();
+        Player player = (Player) fb.getUserData();
         if (fa.getUserData() == null) {
             return;
         }
@@ -40,11 +40,11 @@ public class WorldContactListener implements ContactListener {
 //            }
 //            player.setJumping(false);
 //            player.getBody().setAngularVelocity(1);
-            playerTruck.getBody().setAngularVelocity(0);
+            player.getBody().setAngularVelocity(0);
 
         }
         if (isDangerContact(fa, fb)) {
-            playerTruck.destroy();
+            player.destroy();
         }
     }
 
@@ -54,15 +54,15 @@ public class WorldContactListener implements ContactListener {
         Fixture fb = cntct.getFixtureB();
         if (fa == null || fb == null) return;
         if (fa.getUserData() == null || fb.getUserData() == null) return;
-        PlayerTruck playerTruck = (PlayerTruck) fb.getUserData();
+        Player player = (Player) fb.getUserData();
     }
 
     private boolean isDangerContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof DangerZone && b.getUserData() instanceof PlayerTruck);
+        return (a.getUserData() instanceof DangerZone && b.getUserData() instanceof Player);
     }
 
     private boolean isGroundContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof Ground && b.getUserData() instanceof PlayerTruck);
+        return (a.getUserData() instanceof Ground && b.getUserData() instanceof Player);
     }
 
     @Override

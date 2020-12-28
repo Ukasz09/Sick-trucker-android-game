@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.ukasz09.player.UserData;
+import com.github.ukasz09.player.Player;
 
 import java.util.regex.Pattern;
 
@@ -32,7 +32,7 @@ public class NickChose extends Activity {
             incorrectNick.setVisibility(View.VISIBLE);
         else {
             incorrectNick.setVisibility(View.INVISIBLE);
-            UserData.nick = nick;
+            Player.nick = nick;
             final Intent intent = new Intent(this, LogoChose.class);
             startActivity(intent);
         }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.github.ukasz09.player.UserData;
+import com.github.ukasz09.player.Player;
 
 public class LogoChose extends Activity {
 
@@ -20,7 +20,7 @@ public class LogoChose extends Activity {
     }
 
     private void onLogoClick(String logoPath) {
-        UserData.logoPath = logoPath;
+        Player.logoPath = logoPath;
         final Intent intent = new Intent(this, Game.class);
         startActivity(intent);
     }

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.ukasz09.player.UserData;
+import com.github.ukasz09.player.Player;
 
 public class Game extends Activity {
 
@@ -21,10 +21,10 @@ public class Game extends Activity {
 
     private void setUserNickAndLogoView() {
         ImageView logo = findViewById(R.id.chosenUserLogo);
-        final int logoResourceId = getResources().getIdentifier(com.github.ukasz09.player.UserData.logoPath, "drawable", getPackageName());
+        final int logoResourceId = getResources().getIdentifier(Player.logoPath, "drawable", getPackageName());
         logo.setImageResource(logoResourceId);
         TextView nick = findViewById(R.id.chosenUserNick);
-        nick.setText(UserData.nick);
+        nick.setText(Player.nick);
     }
 
     public void goHome(View view) {
@@ -37,7 +37,7 @@ public class Game extends Activity {
         findViewById(R.id.startGameBtn).setVisibility(View.GONE);
         findViewById(R.id.distance).setVisibility(View.VISIBLE);
 
-    //TODO
+        //TODO
         final Intent intent = new Intent(this, GameLauncher.class);
         startActivity(intent);
     }

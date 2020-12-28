@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class PlayerTruck {
+public class Player {
     public static final float PLAYER_WIDTH_METERS = 3, PLAYER_HEIGHT_METERS = 2;
     private static final int MOVE_FRAMES_COLUMNS = 5, IDLE_FRAME_COLUMNS = 3, FRAME_ROWS = 1;
     private static final float PLAYER_DENSITY = 1.0f;
@@ -20,6 +20,8 @@ public class PlayerTruck {
     private static final float PLAYER_START_X = 60f;
     private static final float PLAYER_START_Y = 100f;
     private static final float IDLE_FRAME_DURATION = 0.025f, MOVING_FRAME_DURATION = 0.025f;
+    public static String nick;
+    public static String logoPath;
 
     private Animation<TextureRegion> moveAnimation, idleAnimation;
     private TextureRegion region;
@@ -32,7 +34,7 @@ public class PlayerTruck {
     private boolean isPressedGasPedal = false;
     private float rotationDegrees;
 
-    public PlayerTruck(World world, float pixelPerMeter) {
+    public Player(World world, float pixelPerMeter) {
         this.widthPx = PLAYER_WIDTH_METERS * pixelPerMeter;
         this.heightPx = PLAYER_HEIGHT_METERS * pixelPerMeter;
         createBoxBody(world);
@@ -51,13 +53,13 @@ public class PlayerTruck {
         BodyDef bdef = new BodyDef();
         bdef.fixedRotation = true;
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(PlayerTruck.PLAYER_START_X, PlayerTruck.PLAYER_START_Y);
+        bdef.position.set(Player.PLAYER_START_X, Player.PLAYER_START_Y);
         return bdef;
     }
 
     private FixtureDef createFixtureDef() {
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(PlayerTruck.PLAYER_WIDTH_METERS / 2, PlayerTruck.PLAYER_HEIGHT_METERS / 2);
+        shape.setAsBox(Player.PLAYER_WIDTH_METERS / 2, Player.PLAYER_HEIGHT_METERS / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = PLAYER_DENSITY;
