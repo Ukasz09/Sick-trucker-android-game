@@ -1,4 +1,4 @@
-package com.github.ukasz09;
+package com.github.ukasz09.player;
 
 public class UserData {
     public static String nick;

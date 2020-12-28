@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.ukasz09.player.UserData;
+
 public class Game extends Activity {
 
     @Override
@@ -19,7 +21,7 @@ public class Game extends Activity {
 
     private void setUserNickAndLogoView() {
         ImageView logo = findViewById(R.id.chosenUserLogo);
-        final int logoResourceId = getResources().getIdentifier(UserData.logoPath, "drawable", getPackageName());
+        final int logoResourceId = getResources().getIdentifier(com.github.ukasz09.player.UserData.logoPath, "drawable", getPackageName());
         logo.setImageResource(logoResourceId);
         TextView nick = findViewById(R.id.chosenUserNick);
         nick.setText(UserData.nick);
@@ -36,7 +38,7 @@ public class Game extends Activity {
         findViewById(R.id.distance).setVisibility(View.VISIBLE);
 
     //TODO
-        final Intent intent = new Intent(this, AndroidLauncher.class);
+        final Intent intent = new Intent(this, GameLauncher.class);
         startActivity(intent);
     }
 }

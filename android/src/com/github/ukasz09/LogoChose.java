@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.github.ukasz09.player.UserData;
+
 public class LogoChose extends Activity {
 
     @Override

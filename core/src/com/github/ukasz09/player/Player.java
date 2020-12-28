@@ -1,4 +1,4 @@
-package com.github.ukasz09;
+package com.github.ukasz09.player;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

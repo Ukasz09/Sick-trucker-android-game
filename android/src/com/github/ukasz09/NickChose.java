@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.ukasz09.player.UserData;
+
 import java.util.regex.Pattern;
 
 public class NickChose extends Activity {

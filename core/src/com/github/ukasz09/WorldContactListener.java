@@ -6,6 +6,9 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.github.ukasz09.map.mapObjects.DangerZone;
+import com.github.ukasz09.map.mapObjects.Ground;
+import com.github.ukasz09.player.Player;
 
 public class WorldContactListener implements ContactListener {
 
@@ -25,7 +28,7 @@ public class WorldContactListener implements ContactListener {
         if (fa == null) {
             return;
         }
-        Player player = (Player) fb.getUserData();
+        com.github.ukasz09.player.Player player = (com.github.ukasz09.player.Player) fb.getUserData();
         if (fa.getUserData() == null) {
             return;
         }
@@ -45,10 +48,6 @@ public class WorldContactListener implements ContactListener {
             player.setJumping(false);
             player.hit();
         }
-        if (isCoinContact(fa, fb)) {
-            Coin coin = (Coin) fa.getUserData();
-                coin.setCollected(true);
-        }
     }
 
     @Override
@@ -58,25 +57,21 @@ public class WorldContactListener implements ContactListener {
         if (fa == null || fb == null) return;
         if (fa.getUserData() == null || fb.getUserData() == null) return;
         if (isGroundContact(fa, fb)) {
-            Player player = (Player) fb.getUserData();
+            com.github.ukasz09.player.Player player = (com.github.ukasz09.player.Player) fb.getUserData();
             player.setJumping(true);
         }
         if (isDangerContact(fa, fb)) {
-            Player player = (Player) fb.getUserData();
+            com.github.ukasz09.player.Player player = (com.github.ukasz09.player.Player) fb.getUserData();
             player.setJumping(true);
         }
     }
 
     private boolean isDangerContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof DangerZone && b.getUserData() instanceof Player);
+        return (a.getUserData() instanceof DangerZone && b.getUserData() instanceof com.github.ukasz09.player.Player);
     }
 
     private boolean isGroundContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof Ground && b.getUserData() instanceof Player);
-    }
-
-    private boolean isCoinContact(Fixture a, Fixture b) {
-        return (a.getUserData() instanceof Coin && b.getUserData() instanceof Player);
+        return (a.getUserData() instanceof Ground && b.getUserData() instanceof com.github.ukasz09.player.Player);
     }
 
     @Override
