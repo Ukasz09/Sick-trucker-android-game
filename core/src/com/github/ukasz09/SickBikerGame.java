@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -15,99 +14,104 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.ukasz09.map.MapParser;
-import com.github.ukasz09.player.Player;
-import com.github.ukasz09.player.UserData;
-
-import java.util.ArrayList;
-import java.util.Random;
+import com.github.ukasz09.player.PlayerTruck;
 
 public class SickBikerGame extends ApplicationAdapter {
-    private static final float SCALE = 4.0f;
+    private static final float CAMERA_ZOOM = 4.0f;
     public static final float PIXEL_PER_METER = 16f;
     private static final float TIME_STEP = 1 / 60f;
     private static final int VELOCITY_ITERATIONS = 6;
     private static final int POSITION_ITERATIONS = 2;
-    private static final float VELOCITY_Y = -9.85f;
-    private static final float VELOCITY_X = 0f;
+    private static final float GRAVITY_VELOCITY_Y = -30f;
+    private static final float GRAVITY_VELOCITY_X = 0f;
     private static final String MAP_PATH = "map/sick-biker-map.tmx";
 
-    private OrthographicCamera orthographicCamera;
+    private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
     private World world;
-    private com.github.ukasz09.player.Player player;
+    private PlayerTruck playerTruck;
     private SpriteBatch batch;
     private Texture texture;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
-    float last = 0;
-    float lastJump = 0;
-
-    Random random = new Random();
-
 
     @Override
     public void create() {
-        orthographicCamera = new OrthographicCamera();
-        orthographicCamera.setToOrtho(false, Gdx.graphics.getWidth() / SCALE, Gdx.graphics.getHeight() / SCALE);
-        world = new World(new Vector2(VELOCITY_X, VELOCITY_Y), false);
-        batch = new SpriteBatch();
-        texture = new Texture(com.github.ukasz09.player.Player.PLAYER_IMG_PATH);
-        box2DDebugRenderer = new Box2DDebugRenderer();
+        initCamera();
+        initWorld();
+        initTextures();
+        initPlayerTruck();
+    }
+
+    private void initCamera() {
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth() / CAMERA_ZOOM, Gdx.graphics.getHeight() / CAMERA_ZOOM);
+    }
+
+    private void initWorld() {
+        Vector2 gravityVector = new Vector2(GRAVITY_VELOCITY_X, GRAVITY_VELOCITY_Y);
+        world = new World(gravityVector, false);
+        world.setContactListener(new WorldContactListener(world));
         tiledMap = new TmxMapLoader().load(MAP_PATH);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         MapParser.parseMapLayers(world, tiledMap);
-        world.setContactListener(new WorldContactListener(world));
+    }
 
-        float playerTextureProportionXToY = (float) (texture.getWidth()) / (float) (texture.getHeight());
-        float playerHeight = 16 * 3;
-        player = new com.github.ukasz09.player.Player(world, 16 * 2, 16 * 3, PIXEL_PER_METER);
+    private void initTextures() {
+        box2DDebugRenderer = new Box2DDebugRenderer();
+        batch = new SpriteBatch();
+        texture = new Texture(PlayerTruck.PLAYER_IMG_PATH);
+    }
+
+    private void initPlayerTruck() {
+        playerTruck = new PlayerTruck(world, PIXEL_PER_METER);
     }
 
     @Override
     public void render() {
         update();
-        Gdx.gl.glClearColor(0.5f, 0.8f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.render();
         batch.begin();
-        batch.draw(new TextureRegion(texture), player.getBody().getPosition().x * PIXEL_PER_METER - (player.getWidth_px() / 2),
-                player.getBody().getPosition().y * PIXEL_PER_METER - (player.getHeight_px() / 2), player.getWidth_px() / 2, player.getHeight_px() / 2, player.getWidth_px(), player.getHeight_px(), 1, 1,
-                last * (-10)
-        );
-
-        batch.draw(new Texture(com.github.ukasz09.player.UserData.logoPath != null ? UserData.logoPath : "user_logo_1" + ".png"), orthographicCamera.position.x + 100,
-                orthographicCamera.position.y + 100, player.getWidth_px(), player.getHeight_px()
-        );
-
-//        System.out.println((float)(last*(-10)));
-
-//        float width, float height,float scaleX, float scaleY, float rotation)
-//        batch.draw(texture, player.getBody().getPosition().x * PIXEL_PER_METER - (player.getWidth_px() / 2),
-//                player.getBody().getPosition().y * PIXEL_PER_METER - (player.getHeight_px() / 2), player.getWidth_px(), player.getHeight_px()
-//        );
+        drawPlayer();
         batch.end();
-        box2DDebugRenderer.render(world, orthographicCamera.combined.scl(PIXEL_PER_METER));
+        renderDebugBoxes();
     }
 
     private void update() {
         world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         inputUpdate();
         cameraUpdate();
-        tiledMapRenderer.setView(orthographicCamera);
-        batch.setProjectionMatrix(orthographicCamera.combined);
+        tiledMapRenderer.setView(camera);
+        batch.setProjectionMatrix(camera.combined);
+        playerTruck.act(1 / 200f); //TODO:
     }
 
     private void cameraUpdate() {
-        Vector3 position = orthographicCamera.position;
-        position.x = player.getBody().getPosition().x * PIXEL_PER_METER;
-        position.y = player.getBody().getPosition().y * PIXEL_PER_METER;
-        orthographicCamera.position.set(position);
-        orthographicCamera.update();
+        Vector3 position = camera.position;
+        position.x = playerTruck.getBody().getPosition().x * PIXEL_PER_METER;
+        position.y = playerTruck.getBody().getPosition().y * PIXEL_PER_METER;
+        camera.position.set(position);
+        camera.update();
+    }
+
+    private void renderDebugBoxes() {
+        box2DDebugRenderer.render(world, camera.combined.scl(PIXEL_PER_METER));
+    }
+
+    private void drawPlayer() {
+        float truckPositionX = playerTruck.getBody().getPosition().x * PIXEL_PER_METER - (playerTruck.getWidthPx() / 2);
+        float truckPositionY = playerTruck.getBody().getPosition().y * PIXEL_PER_METER - (playerTruck.getHeightPx() / 2);
+        float truckOriginX = playerTruck.getWidthPx() / 2;
+        float truckOriginY = playerTruck.getHeightPx() / 2;
+        batch.draw(playerTruck.region, truckPositionX, truckPositionY, truckOriginX, truckOriginY, playerTruck.getWidthPx(), playerTruck.getHeightPx(), 1.2f, 1.2f,
+                playerTruck.getRotation()
+        );
     }
 
     @Override
     public void resize(int width, int height) {
-        orthographicCamera.setToOrtho(false, width / SCALE, height / SCALE);
+        camera.setToOrtho(false, width / CAMERA_ZOOM, height / CAMERA_ZOOM);
     }
 
     @Override
@@ -126,21 +130,24 @@ public class SickBikerGame extends ApplicationAdapter {
         boolean isJumping = false;
         if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            touchPos = orthographicCamera.unproject(touchPos);
-            if (touchPos.x / PIXEL_PER_METER > player.getBody().getPosition().x)
+            touchPos = camera.unproject(touchPos);
+            if (touchPos.x / PIXEL_PER_METER > playerTruck.getBody().getPosition().x) {
                 horizontalForce += 1;
-            if (touchPos.x / PIXEL_PER_METER < player.getBody().getPosition().x)
+                playerTruck.setMoving(true);
+            } else if (touchPos.x / PIXEL_PER_METER < playerTruck.getBody().getPosition().x) {
                 horizontalForce -= 1;
-            if (touchPos.y / PIXEL_PER_METER > player.getBody().getPosition().y && !player.isJumping())
-                isJumping = true;
-
-        }
+                playerTruck.setMoving(true);
+            }
+//            if (touchPos.y / PIXEL_PER_METER > player.getBody().getPosition().y && !player.isJumping())
+//                isJumping = true;
+        } else playerTruck.setMoving(false);
         playerUpdate(horizontalForce, isJumping);
 
 //        float angle = (float) (45*WorldContactListener.DEGREES_TO_RADIANS);
-        if (Math.abs(Math.abs(last) - Math.abs(Gdx.input.getAccelerometerY())) > 0.25) {
-            last = Gdx.input.getAccelerometerY();
-            player.getBody().setTransform(player.getBody().getWorldCenter(),
+        float newRotation = Gdx.input.getAccelerometerY() * (-10);
+        if (Math.abs(Math.abs(playerTruck.getRotation()) - Math.abs(newRotation)) > 5) {
+            playerTruck.setRotation(newRotation);
+            playerTruck.getBody().setTransform(playerTruck.getBody().getWorldCenter(),
                     (float) ((-10) * Gdx.input.getAccelerometerY() * WorldContactListener.DEGREES_TO_RADIANS));
 //            System.out.println(Gdx.input.getAccelerometerY());
         }
@@ -153,17 +160,18 @@ public class SickBikerGame extends ApplicationAdapter {
 
 
     private void playerUpdate(int horizontalForce, boolean isJumping) {
-        if (player.isDead()) {
-            world.destroyBody(player.getBody());
+        if (playerTruck.isDead()) {
+            world.destroyBody(playerTruck.getBody());
             float playerTextureProportionXToY = (float) (texture.getWidth()) / (float) (texture.getHeight());
             float playerWidth = 128;
-            player = new com.github.ukasz09.player.Player(world, 16 * 2, 16 * 3, PIXEL_PER_METER);
+            playerTruck = new PlayerTruck(world, PIXEL_PER_METER);
 
         }
         if (isJumping)
-            player.getBody().applyForceToCenter(0, com.github.ukasz09.player.Player.JUMP_FORCE, false);
+            playerTruck.getBody().applyForceToCenter(0, PlayerTruck.JUMP_FORCE, false);
 
 
-        player.getBody().setLinearVelocity(horizontalForce * Player.RUN_FORCE, player.getBody().getLinearVelocity().y);
+        playerTruck.getBody().setLinearVelocity(horizontalForce * PlayerTruck.RUN_FORCE, playerTruck.getBody().getLinearVelocity().y);
     }
+
 }
