@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.github.ukasz09.SickBikerGame;
+import com.github.ukasz09.GameApp;
 import com.github.ukasz09.map.mapObjects.Bounds;
 import com.github.ukasz09.map.mapObjects.DangerZone;
 import com.github.ukasz09.map.mapObjects.Ground;
@@ -47,8 +47,8 @@ public class MapParser {
         float[] vertices = polygonMapObject.getPolygon().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
         for (int i = 0; i < worldVertices.length; i++) {
-            worldVertices[i] = new Vector2(vertices[i * 2] / SickBikerGame.PIXEL_PER_METER,
-                    vertices[i * 2 + 1] / SickBikerGame.PIXEL_PER_METER);
+            worldVertices[i] = new Vector2(vertices[i * 2] / GameApp.PIXEL_PER_METER,
+                    vertices[i * 2 + 1] / GameApp.PIXEL_PER_METER);
         }
         ChainShape cs = new ChainShape();
         cs.createChain(worldVertices);

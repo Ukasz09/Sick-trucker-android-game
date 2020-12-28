@@ -37,7 +37,6 @@ public class WorldContactListener implements ContactListener {
 //            if (player.isJumping()) {
 //                System.out.println("app");
 //                player.getBody().applyForceToCenter(0, Player.JUMP_FORCE, false);
-            playerTruck.setJumping(false);
 //            }
 //            player.setJumping(false);
 //            player.getBody().setAngularVelocity(1);
@@ -45,8 +44,7 @@ public class WorldContactListener implements ContactListener {
 
         }
         if (isDangerContact(fa, fb)) {
-            playerTruck.setJumping(false);
-            playerTruck.hit();
+            playerTruck.destroy();
         }
     }
 
@@ -57,13 +55,6 @@ public class WorldContactListener implements ContactListener {
         if (fa == null || fb == null) return;
         if (fa.getUserData() == null || fb.getUserData() == null) return;
         PlayerTruck playerTruck = (PlayerTruck) fb.getUserData();
-        if (isGroundContact(fa, fb)) {
-            playerTruck.setJumping(true);
-        } else playerTruck.setJumping(false);
-
-        if (isDangerContact(fa, fb)) {
-            playerTruck.setJumping(true);
-        }
     }
 
     private boolean isDangerContact(Fixture a, Fixture b) {

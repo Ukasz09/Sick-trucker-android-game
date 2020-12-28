@@ -7,108 +7,91 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class PlayerTruck {
-    public static final float PLAYER_WIDTH_METERS = 3;
-    public static final float PLAYER_HEIGHT_METERS = 2;
+    public static final float PLAYER_WIDTH_METERS = 3, PLAYER_HEIGHT_METERS = 2;
+    private static final int MOVE_FRAMES_COLUMNS = 5, IDLE_FRAME_COLUMNS = 3, FRAME_ROWS = 1;
     private static final float PLAYER_DENSITY = 1.0f;
-    public static final float JUMP_FORCE = 500f;
-    public static final float RUN_FORCE = 15f;
-    public static final String PLAYER_IMG_PATH = "sheets/monster-move.png";
-    public static final String PLAYER_IDLE_IMG_PATH = "sheets/monster-idle.png";
-
-    private static final int FRAME_MOVE_COLS = 5, FRAME_IDLE_COLS = 3, FRAME_ROWS = 1;
-    Animation<TextureRegion> moveAnimation;
-    Animation<TextureRegion> idleAnimation;
-    Texture walkSheet;
-    Texture idleSheet;
+    public static final float MOVING_FORCE = 12f;
+    public static final String MOVING_SHEET_PATH = "sheets/monster-move.png";
+    public static final String IDLE_SHEET_PATH = "sheets/monster-idle.png";
     private static final float PLAYER_START_X = 60f;
     private static final float PLAYER_START_Y = 100f;
-    public TextureRegion region;
+    private static final float IDLE_FRAME_DURATION = 0.025f, MOVING_FRAME_DURATION = 0.025f;
+
+    private Animation<TextureRegion> moveAnimation, idleAnimation;
+    private TextureRegion region;
     float stateTime;
-
     private Body body;
-    private float width_px; //TODO: get rid of
-    private float height_px; //TODO: get rid of
-    private float pixelPerMeter;
-    private float lastPositionX = 0f;
-
-    public float getLastPositionX() {
-        return lastPositionX;
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
-
-    private float rotation;
-
+    private float widthPx;
+    private float heightPx;
+    private float lastPositionX;
+    private boolean isDestroyed = false;
+    private boolean isPressedGasPedal = false;
+    private float rotationDegrees;
 
     public PlayerTruck(World world, float pixelPerMeter) {
-        this.width_px = PLAYER_WIDTH_METERS * pixelPerMeter;
-        this.height_px = PLAYER_HEIGHT_METERS * pixelPerMeter;
-        this.pixelPerMeter = pixelPerMeter;
-        createBoxBody(world, PLAYER_START_X, PLAYER_START_Y, this.width_px, this.height_px);
+        this.widthPx = PLAYER_WIDTH_METERS * pixelPerMeter;
+        this.heightPx = PLAYER_HEIGHT_METERS * pixelPerMeter;
+        createBoxBody(world);
         lastPositionX = getBody().getPosition().x;
         createAnimation();
     }
 
+    private void createBoxBody(World world) {
+        FixtureDef fixtureDef = createFixtureDef();
+        BodyDef bodyDef = createBodyDef();
+        body = world.createBody(bodyDef);
+        body.createFixture(fixtureDef).setUserData(this);
+    }
+
+    private BodyDef createBodyDef() {
+        BodyDef bdef = new BodyDef();
+        bdef.fixedRotation = true;
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.position.set(PlayerTruck.PLAYER_START_X, PlayerTruck.PLAYER_START_Y);
+        return bdef;
+    }
+
+    private FixtureDef createFixtureDef() {
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(PlayerTruck.PLAYER_WIDTH_METERS / 2, PlayerTruck.PLAYER_HEIGHT_METERS / 2);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = PLAYER_DENSITY;
+        return fixtureDef;
+    }
+
     private void createAnimation() {
-        walkSheet = new Texture(Gdx.files.internal(PLAYER_IMG_PATH));
-
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-                walkSheet.getWidth() / FRAME_MOVE_COLS,
-                walkSheet.getHeight() / FRAME_ROWS);
-
-        TextureRegion[] walkFrames = new TextureRegion[FRAME_MOVE_COLS * FRAME_ROWS];
-        int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_MOVE_COLS; j++) {
-                walkFrames[index++] = tmp[i][j];
-            }
-        }
-
-        idleSheet = new Texture(Gdx.files.internal(PLAYER_IDLE_IMG_PATH));
-
-        TextureRegion[][] tmp2 = TextureRegion.split(idleSheet,
-                idleSheet.getWidth() / FRAME_IDLE_COLS,
-                idleSheet.getHeight() / FRAME_ROWS);
-
-        TextureRegion[] idleFrames = new TextureRegion[FRAME_IDLE_COLS * FRAME_ROWS];
-        index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_IDLE_COLS; j++) {
-                idleFrames[index++] = tmp2[i][j];
-            }
-        }
-
-        moveAnimation = new Animation<>(0.025f, walkFrames);
-        idleAnimation = new Animation<>(0.025f, idleFrames);
+        TextureRegion[] walkFrames = createFrames(MOVING_SHEET_PATH, MOVE_FRAMES_COLUMNS, FRAME_ROWS);
+        TextureRegion[] idleFrames = createFrames(IDLE_SHEET_PATH, IDLE_FRAME_COLUMNS, FRAME_ROWS);
+        moveAnimation = new Animation<>(MOVING_FRAME_DURATION, walkFrames);
+        idleAnimation = new Animation<>(IDLE_FRAME_DURATION, idleFrames);
         stateTime = 0f;
         region = idleAnimation.getKeyFrame(0);
     }
 
-    private void createBoxBody(World world, float x, float y, float width_px, float height_px) {
-        BodyDef bdef = new BodyDef();
-        bdef.fixedRotation = true;
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(x, y);
-        PolygonShape shape = new PolygonShape();
+    private TextureRegion[] createFrames(String sheetPath, int frameColumns, int frameRows) {
+        Texture sheet = new Texture(Gdx.files.internal(sheetPath));
+        TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / frameColumns, sheet.getHeight() / frameRows);
+        TextureRegion[] frames = new TextureRegion[frameColumns * frameRows];
+        int index = 0;
+        for (int i = 0; i < frameRows; i++) {
+            for (int j = 0; j < frameColumns; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        return frames;
+    }
 
-        shape.setAsBox(width_px / pixelPerMeter / 2, height_px / pixelPerMeter / 2);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = PLAYER_DENSITY;
-        body = world.createBody(bdef);
-        body.createFixture(fixtureDef).setUserData(this);
-        body.setMassData(new MassData());
+    public float getRotationDegrees() {
+        return rotationDegrees;
+    }
+
+    public void setRotationDegrees(float rotationDegrees) {
+        this.rotationDegrees = rotationDegrees;
     }
 
     public Body getBody() {
@@ -116,47 +99,38 @@ public class PlayerTruck {
     }
 
     public float getWidthPx() {
-        return width_px;
+        return widthPx;
     }
 
     public float getHeightPx() {
-        return height_px;
+        return heightPx;
     }
-
-    private boolean isJumping = false;
-    private boolean isDead = false;
-    private boolean isPressedGasPedal = true;
 
     public void setPressedGasPedal(boolean isPressed) {
         isPressedGasPedal = isPressed;
     }
-//    public void setIdle(boolean idle) {
-//        isIdle = idle;
-//    }
 
-    public void hit() {
-        isDead = true;
+    public void destroy() {
+        isDestroyed = true;
     }
 
-    public void setJumping(boolean jumping) {
-        isJumping = jumping;
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
-    public boolean isJumping() {
-        return isJumping;
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
-
-    public void act(float delta) {
+    public void updateAnimation(float delta) {
         stateTime += delta;
-        if (lastPositionX != getBody().getPosition().x || isPressedGasPedal)
+        if (isMovingHorizontally() || isPressedGasPedal)
             region = moveAnimation.getKeyFrame(stateTime, true);
         else region = idleAnimation.getKeyFrame(stateTime, true);
-
         lastPositionX = getBody().getPosition().x;
+    }
+
+    public boolean isMovingHorizontally() {
+        return lastPositionX != getBody().getPosition().x;
+    }
+
+    public TextureRegion getRegion() {
+        return region;
     }
 }

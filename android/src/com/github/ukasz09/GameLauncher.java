@@ -11,6 +11,6 @@ public class GameLauncher extends AndroidApplication {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        initialize(new SickBikerGame(), config);
+        initialize(new GameApp(), config);
     }
 }
