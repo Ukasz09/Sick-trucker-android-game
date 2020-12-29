@@ -59,7 +59,7 @@ public class RecordsListAdapter extends BaseAdapter {
 
     private static String getRecordsEndpoint() {
         String endpoint = Endpoints.BACKEND_ENDPOINT + Endpoints.RANKING_ENDPOINT;
-        String query = "?sort=desc";
+        String query = "?sort=asc";
         endpoint += query;
         return endpoint;
     }
@@ -72,8 +72,8 @@ public class RecordsListAdapter extends BaseAdapter {
                     JSONObject element = response.getJSONObject(i);
                     String logoUrl = element.getString("logoUrl");
                     String nick = element.getString("nick");
-                    int travelledMeters = element.getInt("travelledMeters");
-                    UserRecordModel userRecord = new UserRecordModel(logoUrl, nick, travelledMeters);
+                    double time = element.getDouble("time");
+                    UserRecordModel userRecord = new UserRecordModel(logoUrl, nick, time);
                     userRecords.add(userRecord);
                 }
             } catch (JSONException e) {
@@ -134,6 +134,6 @@ public class RecordsListAdapter extends BaseAdapter {
         final int logoResourceId = context.getResources().getIdentifier(userRecord.logoUrl, "drawable", context.getPackageName());
         rankingView.logo.setImageResource(logoResourceId);
         rankingView.nick.setText(userRecord.nick);
-        rankingView.travelledMeters.setText(String.format("%s%s", userRecord.travelledMeters, "m"));
+        rankingView.travelledMeters.setText(String.format("%s%s", userRecord.time, " ms"));
     }
 }

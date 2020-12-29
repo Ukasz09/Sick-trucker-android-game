@@ -4,7 +4,7 @@ const Records = db.records;
 exports.findAll = (req, res) => {
   const { sort } = req.query;
   let sort_param = {};
-  if (sort) sort_param = { travelledMeters: sort };
+  if (sort) sort_param = { time: sort };
   else sort_param = { createdAt: "desc" };
 
   Records.find({})
