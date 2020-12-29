@@ -25,16 +25,15 @@
         <activity
             android:name=".activities.GameLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
-            android:screenOrientation="landscape"></activity>
-        <activity
-            android:name=".fragments.MenuStart"
             android:screenOrientation="landscape">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+        </activity>
+        <activity
+            android:name=".fragments.MenuStart"
+            android:screenOrientation="landscape">
         </activity>
 
     </application>

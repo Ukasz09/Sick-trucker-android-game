@@ -25,8 +25,8 @@ public class Player {
     public static final float GAS_PRESSED_SOUND_VOLUME = 0.7f;
     public static final float SOUND_VOLUME = 1f;
 
-    public static String nick;
-    public static String logoPath;
+    public static String nick = "unknown";
+    public static String logoPath = "\\user_logo_1";
 
     private Animation<TextureRegion> moveAnimation, idleAnimation;
     private TextureRegion region;
@@ -41,6 +41,7 @@ public class Player {
     private Sound idleEngineSound;
     private Sound gasPressedEngineSound;
     private Sound backwardEngineSound;
+    private Sound boomSound;
     private Sound startEngineSound;
     public boolean backwardSoundIsPlaying = false;
     public boolean gasPressedSoundIsPlaying = false;
@@ -87,6 +88,10 @@ public class Player {
                 idleEngineSound.loop(volume);
             }
         }, 0.2f);
+    }
+
+    public void playBoomSound() {
+        boomSound.play();
     }
 
     public void stopIdleEngineSound() {
@@ -165,6 +170,7 @@ public class Player {
         idleEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_idle.wav"));
         gasPressedEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_pedal_pressed.wav"));
         backwardEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_backward.wav"));
+        boomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/boom.wav"));
     }
 
     public float getRotationDegrees() {

@@ -2,6 +2,8 @@ package com.github.ukasz09;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
 import com.github.ukasz09.map.MapParser;
 import com.github.ukasz09.player.Player;
 
@@ -38,6 +41,7 @@ public class GameApp extends ApplicationAdapter {
     private Texture texture;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
+    private Hud hud;
 
     @Override
     public void create() {
@@ -45,6 +49,8 @@ public class GameApp extends ApplicationAdapter {
         initWorld();
         initTextures();
         initPlayerTruck();
+        Gdx.graphics.getDeltaTime();
+        hud = new Hud(batch, camera);
     }
 
     private void initCamera() {
@@ -78,6 +84,7 @@ public class GameApp extends ApplicationAdapter {
         tiledMapRenderer.render();
         batch.begin();
         drawPlayer();
+        hud.render();
         batch.end();
 //        renderDebugBoxes();
     }
@@ -89,6 +96,7 @@ public class GameApp extends ApplicationAdapter {
         tiledMapRenderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
         player.updateAnimation(TIME_STEP);
+        hud.update();
     }
 
     private void cameraUpdate() {
@@ -104,11 +112,11 @@ public class GameApp extends ApplicationAdapter {
     }
 
     private void drawPlayer() {
-        float truckPositionX = player.getBody().getPosition().x * PIXEL_PER_METER - (player.getWidthPx() / 2);
-        float truckPositionY = player.getBody().getPosition().y * PIXEL_PER_METER - (player.getHeightPx() / 2);
+        float playerPositionX = player.getBody().getPosition().x * PIXEL_PER_METER - (player.getWidthPx() / 2);
+        float playerPositionY = player.getBody().getPosition().y * PIXEL_PER_METER - (player.getHeightPx() / 2);
         float truckOriginX = player.getWidthPx() / 2;
         float truckOriginY = player.getHeightPx() / 2;
-        batch.draw(player.getRegion(), truckPositionX, truckPositionY, truckOriginX, truckOriginY, player.getWidthPx(), player.getHeightPx(), 1.2f, 1.2f,
+        batch.draw(player.getRegion(), playerPositionX, playerPositionY, truckOriginX, truckOriginY, player.getWidthPx(), player.getHeightPx(), 1.2f, 1.2f,
                 player.getRotationDegrees()
         );
     }
@@ -163,7 +171,9 @@ public class GameApp extends ApplicationAdapter {
         if (player.isDestroyed()) {
             world.destroyBody(player.getBody());
             player.stopSounds();
+            player.playBoomSound();
             initPlayerTruck();
+            hud.resetTimer();
         } else {
             updateEngineSound();
         }
@@ -191,10 +201,7 @@ public class GameApp extends ApplicationAdapter {
                 }
             }
         } else {
-//            if (player.gasPressedSoundIsPlaying) {
             player.stopGasPressedEngineSound();
-//                player.playIdleEngineSound(Player.SOUND_VOLUME);
-//            }
             player.stopBackwardEngineSound();
         }
     }
