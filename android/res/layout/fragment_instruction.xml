@@ -47,17 +47,17 @@
                 >
 
                 <ImageView
-                    android:id="@+id/phoneUpImage"
+                    android:id="@+id/phoneTouchImage"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/phone_up" />
+                    android:src="@drawable/phone_touch" />
 
                 <TextView
-                    android:id="@+id/moveUpInstructionText"
+                    android:id="@+id/touchInstructionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/move_up_instruction_text"
+                    android:text="@string/touch_instruction_text"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryLight"
                     android:textSize="12sp" />

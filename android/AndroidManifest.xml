@@ -14,7 +14,7 @@
         android:theme="@style/DarkTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.Game"
+            android:name=".activities.GameReadyView"
             android:screenOrientation="landscape" />
         <activity
             android:name=".activities.LogoChose"

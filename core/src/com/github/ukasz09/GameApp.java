@@ -79,7 +79,7 @@ public class GameApp extends ApplicationAdapter {
         batch.begin();
         drawPlayer();
         batch.end();
-        renderDebugBoxes();
+//        renderDebugBoxes();
     }
 
     private void update() {
@@ -88,7 +88,7 @@ public class GameApp extends ApplicationAdapter {
         cameraUpdate();
         tiledMapRenderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
-        player.updateAnimation(1 / 200f); //TODO:
+        player.updateAnimation(TIME_STEP);
     }
 
     private void cameraUpdate() {
@@ -126,45 +126,76 @@ public class GameApp extends ApplicationAdapter {
         world.dispose();
         tiledMapRenderer.dispose();
         tiledMap.dispose();
+        player.dispose();
     }
 
 
     private void inputUpdate() {
-        if (Gdx.input.isTouched())
+        if (Gdx.input.isTouched()) {
+            player.setPressedGasPedal(true);
             onTouchPositionUpdate();
-        else {
+        } else {
             player.setPressedGasPedal(false);
         }
         float newRotation = calcNewRotation();
         if (needToRotate(newRotation)) {
             rotatePlayer(newRotation);
         }
+        playerTruckUpdate();
     }
 
     private void onTouchPositionUpdate() {
-        player.setPressedGasPedal(true);
         int horizontalForce = 0;
         Vector3 touchPosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         touchPosition = camera.unproject(touchPosition);
         if (touchPosition.x / PIXEL_PER_METER > player.getBody().getPosition().x) {
             horizontalForce++;
+            player.isGoingBackwards = false;
         }
         if (touchPosition.x / PIXEL_PER_METER < player.getBody().getPosition().x) {
             horizontalForce--;
+            player.isGoingBackwards = true;
         }
-        playerTruckUpdate(horizontalForce);
+        updatePlayerPosition(horizontalForce);
     }
 
-    private void playerTruckUpdate(int horizontalForce) {
+    private void playerTruckUpdate() {
         if (player.isDestroyed()) {
             world.destroyBody(player.getBody());
+            player.stopSounds();
             initPlayerTruck();
         } else {
-            float velocityX = horizontalForce * Player.MOVING_FORCE;
-            if (player.isMovingHorizontally())
-                player.getBody().setLinearVelocity(velocityX, player.getBody().getLinearVelocity().y);
-            else
-                player.getBody().setLinearVelocity(velocityX, FALLING_FORCE_Y);
+            updateEngineSound();
+        }
+    }
+
+    private void updatePlayerPosition(int horizontalForce) {
+        float velocityX = horizontalForce * Player.MOVING_FORCE;
+        if (player.isMovingHorizontally())
+            player.getBody().setLinearVelocity(velocityX, player.getBody().getLinearVelocity().y);
+        else
+            player.getBody().setLinearVelocity(velocityX, FALLING_FORCE_Y);
+    }
+
+    private void updateEngineSound() {
+        if (player.isPressedGasPedal) {
+            if (!player.isGoingBackwards) {
+                if (!player.gasPressedSoundIsPlaying) {
+                    player.stopBackwardEngineSound();
+                    player.playGasPressedEngineSound(Player.GAS_PRESSED_SOUND_VOLUME);
+                }
+            } else {
+                if (!player.backwardSoundIsPlaying) {
+                    player.stopGasPressedEngineSound();
+                    player.playBackwardEngineSound(Player.SOUND_VOLUME);
+                }
+            }
+        } else {
+//            if (player.gasPressedSoundIsPlaying) {
+            player.stopGasPressedEngineSound();
+//                player.playIdleEngineSound(Player.SOUND_VOLUME);
+//            }
+            player.stopBackwardEngineSound();
         }
     }
 

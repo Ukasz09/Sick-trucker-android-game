@@ -15,8 +15,8 @@
     <string name="other_projects_text">You can find my other projects on my GitHub repository:</string>
     <string name="github_link">www.github.com/Ukasz09</string>
     <string name="game_control_header">GAME CONTROL</string>
-    <string name="move_up_instruction_text">Dynamically move your phone up to make a jump. Don\'t forget to use phone rotations as well</string>
-    <string name="rotate_instruction_text">Slightly rotate phone to control the acceleration, deceleration, and your tilt</string>
+    <string name="touch_instruction_text">Touch right side of your phone to move forward or left to go backwards</string>
+    <string name="rotate_instruction_text">Rotate phone to control rotation of your truck</string>
     <string name="game_ranking_header">GAME RANKING</string>
     <string name="data_fetching_error_text">Data fetching error</string>
     <string name="choose_nick_text">Choose your nick:</string>

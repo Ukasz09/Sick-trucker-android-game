@@ -22,7 +22,7 @@ public class LogoChose extends Activity {
 
     private void onLogoClick(String logoPath) {
         Player.logoPath = logoPath;
-        final Intent intent = new Intent(this, Game.class);
+        final Intent intent = new Intent(this, GameReadyView.class);
         startActivity(intent);
     }
 }

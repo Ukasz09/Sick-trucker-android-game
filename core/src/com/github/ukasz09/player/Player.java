@@ -1,6 +1,7 @@
 package com.github.ukasz09.player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
 
 public class Player {
     public static final float PLAYER_WIDTH_METERS = 3, PLAYER_HEIGHT_METERS = 2;
@@ -19,7 +21,10 @@ public class Player {
     public static final String IDLE_SHEET_PATH = "sheets/monster-idle.png";
     private static final float PLAYER_START_X = 60f;
     private static final float PLAYER_START_Y = 100f;
-    private static final float IDLE_FRAME_DURATION = 0.025f, MOVING_FRAME_DURATION = 0.025f;
+    private static final float IDLE_FRAME_DURATION = 0.045f, MOVING_FRAME_DURATION = 0.03f;
+    public static final float GAS_PRESSED_SOUND_VOLUME = 0.7f;
+    public static final float SOUND_VOLUME = 1f;
+
     public static String nick;
     public static String logoPath;
 
@@ -31,8 +36,16 @@ public class Player {
     private float heightPx;
     private float lastPositionX;
     private boolean isDestroyed = false;
-    private boolean isPressedGasPedal = false;
+    public boolean isPressedGasPedal = false;
     private float rotationDegrees;
+    private Sound idleEngineSound;
+    private Sound gasPressedEngineSound;
+    private Sound backwardEngineSound;
+    private Sound startEngineSound;
+    public boolean backwardSoundIsPlaying = false;
+    public boolean gasPressedSoundIsPlaying = false;
+    public boolean isGoingBackwards = false;
+
 
     public Player(World world, float pixelPerMeter) {
         this.widthPx = PLAYER_WIDTH_METERS * pixelPerMeter;
@@ -40,6 +53,65 @@ public class Player {
         createBoxBody(world);
         lastPositionX = getBody().getPosition().x;
         createAnimation();
+        this.initSounds();
+        playStartEngineSound(SOUND_VOLUME);
+        playIdleEngineSound(SOUND_VOLUME);
+    }
+
+    private void playStartEngineSound(float volume) {
+        Timer x = new Timer();
+        x.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                startEngineSound.play(volume);
+            }
+        }, 0.2f);
+    }
+
+    public void playBackwardEngineSound(float volume) {
+        backwardSoundIsPlaying = true;
+        Timer x = new Timer();
+        x.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                backwardEngineSound.loop(volume);
+            }
+        }, 0.1f);
+    }
+
+    public void playIdleEngineSound(float volume) {
+        Timer x = new Timer();
+        x.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                idleEngineSound.loop(volume);
+            }
+        }, 0.2f);
+    }
+
+    public void stopIdleEngineSound() {
+        idleEngineSound.stop();
+    }
+
+    public void stopBackwardEngineSound() {
+        backwardSoundIsPlaying = false;
+        backwardEngineSound.stop();
+    }
+
+    public void playGasPressedEngineSound(float volume) {
+        gasPressedSoundIsPlaying = true;
+        Timer x = new Timer();
+        x.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                gasPressedEngineSound.loop(volume);
+            }
+        }, 0.1f);
+    }
+
+    public void stopGasPressedEngineSound() {
+        gasPressedSoundIsPlaying = false;
+        gasPressedEngineSound.stop();
     }
 
     private void createBoxBody(World world) {
@@ -88,6 +160,13 @@ public class Player {
         return frames;
     }
 
+    private void initSounds() {
+        startEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_start.wav"));
+        idleEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_idle.wav"));
+        gasPressedEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_pedal_pressed.wav"));
+        backwardEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_backward.wav"));
+    }
+
     public float getRotationDegrees() {
         return rotationDegrees;
     }
@@ -134,5 +213,19 @@ public class Player {
 
     public TextureRegion getRegion() {
         return region;
+    }
+
+    public void dispose() {
+        startEngineSound.dispose();
+        gasPressedEngineSound.dispose();
+        idleEngineSound.dispose();
+        backwardEngineSound.dispose();
+    }
+
+    public void stopSounds() {
+        stopGasPressedEngineSound();
+        stopIdleEngineSound();
+        stopBackwardEngineSound();
+        startEngineSound.stop();
     }
 }

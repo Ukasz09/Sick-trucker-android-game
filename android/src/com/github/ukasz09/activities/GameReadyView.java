@@ -11,13 +11,12 @@ import com.github.ukasz09.fragments.MenuStart;
 import com.github.ukasz09.R;
 import com.github.ukasz09.player.Player;
 
-public class Game extends Activity {
+public class GameReadyView extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        findViewById(R.id.distance).setVisibility(View.GONE);
+        setContentView(R.layout.activity_game_ready_view);
         setUserNickAndLogoView();
     }
 
@@ -35,11 +34,6 @@ public class Game extends Activity {
     }
 
     public void startGame(View view) {
-        findViewById(R.id.homeGameIcon).setVisibility(View.GONE);
-        findViewById(R.id.startGameBtn).setVisibility(View.GONE);
-        findViewById(R.id.distance).setVisibility(View.VISIBLE);
-
-        //TODO
         final Intent intent = new Intent(this, GameLauncher.class);
         startActivity(intent);
     }
