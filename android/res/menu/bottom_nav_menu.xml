@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeMenuItem"
-        android:icon="@drawable/ic_cycling"
+        android:icon="@drawable/ic_wheel"
         android:title="@string/home_menu_label" />
     <item
         android:id="@+id/rankingMenuItem"

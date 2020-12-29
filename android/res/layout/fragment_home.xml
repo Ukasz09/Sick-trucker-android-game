@@ -22,16 +22,16 @@
 
         <Button
             android:id="@+id/yes_label"
-            android:layout_width="150dp"
+            android:layout_width="114dp"
             android:layout_height="35dp"
-            android:layout_marginBottom="176dp"
+            android:layout_marginBottom="164dp"
             android:background="@drawable/gradient_primary"
+            android:onClick="openNickChooseActivity"
             android:text="@string/play_btn"
             android:textColor="@color/colorLightText"
             android:textFontWeight="700"
-            android:onClick="openNickChooseActivity"
             app:layout_constraintBottom_toBottomOf="@id/gameLogo"
-            app:layout_constraintHorizontal_bias="0.624"
+            app:layout_constraintHorizontal_bias="0.779"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
