@@ -2,6 +2,7 @@ package com.github.ukasz09;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
 import com.github.ukasz09.map.MapParser;
 import com.github.ukasz09.player.Player;
 
@@ -39,10 +41,11 @@ public class GameApp extends ApplicationAdapter {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
     private Hud hud;
-    private ActivityBridge activityBridge;
+    private Music backgroundMusic;
+    private ActivityBridge wonGamePageActivityBridge;
 
-    public GameApp(ActivityBridge activityBridge) {
-        this.activityBridge = activityBridge;
+    public GameApp(ActivityBridge wonGamePageActivityBridge) {
+        this.wonGamePageActivityBridge = wonGamePageActivityBridge;
     }
 
     @Override
@@ -53,7 +56,9 @@ public class GameApp extends ApplicationAdapter {
         initPlayerTruck();
         Gdx.graphics.getDeltaTime();
         hud = new Hud(batch, camera);
-        activityBridge.showActivity();
+        initBackgroundSound();
+        backgroundMusic.play();
+//        wonGamePageActivityBridge.showActivity();
     }
 
     private void initCamera() {
@@ -78,6 +83,12 @@ public class GameApp extends ApplicationAdapter {
 
     private void initPlayerTruck() {
         player = new Player(world, PIXEL_PER_METER);
+    }
+
+    private void initBackgroundSound() {
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/play-background.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.5f);
     }
 
     @Override
@@ -200,7 +211,7 @@ public class GameApp extends ApplicationAdapter {
             } else {
                 if (!player.backwardSoundIsPlaying) {
                     player.stopGasPressedEngineSound();
-                    player.playBackwardEngineSound(Player.SOUND_VOLUME);
+                    player.playBackwardEngineSound();
                 }
             }
         } else {

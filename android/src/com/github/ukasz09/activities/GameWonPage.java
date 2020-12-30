@@ -2,6 +2,9 @@ package com.github.ukasz09.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,14 +27,23 @@ import java.util.Map;
 
 public class GameWonPage extends Activity {
     private RequestQueue mRequestQueue;
+    private MediaPlayer applauseSoundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_game_won_page);
+        initApplauseEffect();
+        applauseSoundPlayer.start();
         setTimeResult();
         putRankingData();
+    }
+
+    private void initApplauseEffect() {
+        int rawId = R.raw.applause;
+        applauseSoundPlayer = MediaPlayer.create(this, rawId);
+        applauseSoundPlayer.setLooping(false);
     }
 
     public void setTimeResult() {
@@ -75,7 +87,6 @@ public class GameWonPage extends Activity {
     }
 
     private static String getRecordsEndpoint() {
-        String endpoint = Endpoints.BACKEND_ENDPOINT + Endpoints.RANKING_ENDPOINT;
-        return endpoint;
+        return Endpoints.BACKEND_ENDPOINT + Endpoints.RANKING_ENDPOINT;
     }
 }

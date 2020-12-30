@@ -1,6 +1,7 @@
 package com.github.ukasz09.fragments;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MenuStart extends FragmentActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView navigation;
+    private static MediaPlayer backgroundMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,22 @@ public class MenuStart extends FragmentActivity implements BottomNavigationView.
         setContentView(R.layout.activity_menu_start);
         observeNavigationView();
         loadFragment(new HomeFragment());
+        initBackgroundMediaPlayer();
+        playBackgroundSound();
+    }
+
+    private void initBackgroundMediaPlayer() {
+        int rawId = R.raw.background;
+        backgroundMediaPlayer = MediaPlayer.create(this, rawId);
+        backgroundMediaPlayer.setLooping(true);
+    }
+
+    public static void playBackgroundSound() {
+        backgroundMediaPlayer.start();
+    }
+
+    public static void stopBackgroundSound() {
+        backgroundMediaPlayer.stop();
     }
 
     private void observeNavigationView() {
