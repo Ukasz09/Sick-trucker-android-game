@@ -11,12 +11,13 @@ public class Hud {
     private static final float PLAYER_LOGO_SIZE = 40f;
     private static final float HUD_PADDING = 10f;
     private static final float TIME_LABEL_WIDTH = 150f;
+    public static final String TIME_UNIT = "ms";
 
     private BitmapFont font = new BitmapFont();
     private Batch batch;
     private OrthographicCamera camera;
     private Texture playerLogoTexture;
-    private float timeMs = 0;
+    public static float timeMs = 0;
 
     public Hud(Batch batch, OrthographicCamera camera) {
         this.batch = batch;

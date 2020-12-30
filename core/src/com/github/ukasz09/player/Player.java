@@ -26,7 +26,7 @@ public class Player {
     public static final float SOUND_VOLUME = 1f;
 
     public static String nick = "unknown";
-    public static String logoPath = "\\user_logo_1";
+    public static String logoPath = "user_logo_1";
 
     private Animation<TextureRegion> moveAnimation, idleAnimation;
     private TextureRegion region;

@@ -8,6 +8,6 @@ module.exports = (mongoose) => {
     const { __v, _id, ...object } = this.toObject();
     return object;
   });
-
-  return mongoose.model("record", schema);
+  const Record = mongoose.model("record", schema);
+  return Record;
 };

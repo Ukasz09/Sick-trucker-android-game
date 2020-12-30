@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.github.ukasz09.activities.GameWonPage">
+
+
+    <TextView
+        android:id="@+id/winnerPageHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="30dp"
+        android:text="@string/you_win"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryLight"
+        android:textSize="35sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/trophy" />
+
+        <TextView
+            android:id="@+id/resultTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your time: 1000 ms"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingVertical="20dp">
+
+        <Button
+            android:id="@+id/homeBtn"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/gradient_accent"
+            android:gravity="center"
+            android:onClick="goHome"
+            android:text="@string/home_menu_label"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryLight"
+            android:textFontWeight="700"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/playAgain"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/gradient_accent"
+            android:gravity="center"
+            android:onClick="startGame"
+            android:text="@string/play_again"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryLight"
+            android:textFontWeight="700"
+            android:textSize="17sp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

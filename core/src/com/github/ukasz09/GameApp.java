@@ -2,8 +2,6 @@ package com.github.ukasz09;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Timer;
 import com.github.ukasz09.map.MapParser;
 import com.github.ukasz09.player.Player;
 
@@ -42,6 +39,11 @@ public class GameApp extends ApplicationAdapter {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private TiledMap tiledMap;
     private Hud hud;
+    private ActivityBridge activityBridge;
+
+    public GameApp(ActivityBridge activityBridge) {
+        this.activityBridge = activityBridge;
+    }
 
     @Override
     public void create() {
@@ -51,6 +53,7 @@ public class GameApp extends ApplicationAdapter {
         initPlayerTruck();
         Gdx.graphics.getDeltaTime();
         hud = new Hud(batch, camera);
+        activityBridge.showActivity();
     }
 
     private void initCamera() {

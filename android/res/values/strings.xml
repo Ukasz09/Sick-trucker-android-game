@@ -24,4 +24,6 @@
     <string name="incorrect_nick_text">Incorrect nick</string>
     <string name="choose_logo_text">Choose your logo:</string>
     <string name="unknown_nick">unknown_nick</string>
+    <string name="you_win">YOU WIN</string>
+    <string name="play_again">Play again</string>
 </resources>
