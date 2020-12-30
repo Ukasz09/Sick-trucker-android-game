@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Timer;
 import com.github.ukasz09.map.MapParser;
 import com.github.ukasz09.player.Player;
 
@@ -54,7 +53,6 @@ public class GameApp extends ApplicationAdapter {
         initWorld();
         initTextures();
         initPlayerTruck();
-        Gdx.graphics.getDeltaTime();
         hud = new Hud(batch, camera);
         initBackgroundSound();
         backgroundMusic.play();
@@ -82,7 +80,7 @@ public class GameApp extends ApplicationAdapter {
     }
 
     private void initPlayerTruck() {
-        player = new Player(world, PIXEL_PER_METER);
+        player = new Player(world);
     }
 
     private void initBackgroundSound() {
@@ -149,6 +147,7 @@ public class GameApp extends ApplicationAdapter {
         tiledMapRenderer.dispose();
         tiledMap.dispose();
         player.dispose();
+        backgroundMusic.dispose();
     }
 
 
@@ -183,14 +182,18 @@ public class GameApp extends ApplicationAdapter {
 
     private void playerTruckUpdate() {
         if (player.isDestroyed()) {
-            world.destroyBody(player.getBody());
-            player.stopSounds();
-            player.playBoomSound();
-            initPlayerTruck();
-            hud.resetTimer();
+            restartGame();
         } else {
             updateEngineSound();
         }
+    }
+
+    private void restartGame() {
+        world.destroyBody(player.getBody());
+        player.stopSoundsEffects();
+        player.playBoomSound();
+        player.reset();
+        hud.resetTimer();
     }
 
     private void updatePlayerPosition(int horizontalForce) {
@@ -206,7 +209,7 @@ public class GameApp extends ApplicationAdapter {
             if (!player.isGoingBackwards) {
                 if (!player.gasPressedSoundIsPlaying) {
                     player.stopBackwardEngineSound();
-                    player.playGasPressedEngineSound(Player.GAS_PRESSED_SOUND_VOLUME);
+                    player.playGasPressedEngineSound();
                 }
             } else {
                 if (!player.backwardSoundIsPlaying) {

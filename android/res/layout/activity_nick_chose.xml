@@ -46,7 +46,7 @@
             android:background="@drawable/gradient_primary"
             android:text="GO"
             android:onClick="validateNick"
-            android:textColor="@color/colorPrimaryLight"
+            android:textColor="@color/colorLightText"
             android:textFontWeight="700" />
     </LinearLayout>
 
