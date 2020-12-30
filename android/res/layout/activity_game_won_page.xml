@@ -30,14 +30,55 @@
             android:layout_height="200dp"
             android:src="@drawable/trophy" />
 
-        <TextView
-            android:id="@+id/resultTimeLabel"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your time: 1000 ms"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryLight"
-            android:textSize="25sp" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/resultTimeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your time: xxx ms"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/errorDataSavingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Data saving error: error placeholder"
+                android:textAlignment="center"
+                android:textColor="@color/colorDangerDark"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/successfulDataSavingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Correct saved data: placeholder"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/tryAgainSaveResultBtn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:background="@drawable/gradient_primary"
+                android:gravity="center"
+                android:onClick="onTryAgainSaveBtnClick"
+                android:text="Try again connect to database"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryLight"
+                android:textFontWeight="700"
+                android:textSize="10sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +98,7 @@
             android:text="@string/home_menu_label"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryLight"
-            android:textFontWeight="700"/>
+            android:textFontWeight="700" />
 
         <Button
             android:id="@+id/playAgain"

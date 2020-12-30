@@ -57,7 +57,7 @@ public class GameApp extends ApplicationAdapter {
         hud = new Hud(batch, camera);
         initBackgroundSound();
         backgroundMusic.play();
-//        test();
+//        mockedDisplayWonPageTrigger();
     }
 
     private void initCamera() {
@@ -239,7 +239,7 @@ public class GameApp extends ApplicationAdapter {
         player.getBody().setTransform(player.getBody().getWorldCenter(), radians);
     }
 
-    private void test() {
+    private void mockedDisplayWonPageTrigger() {
         Timer x = new Timer();
         x.scheduleTask(new Timer.Task() {
             @Override

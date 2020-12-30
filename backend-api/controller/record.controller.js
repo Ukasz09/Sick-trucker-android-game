@@ -42,29 +42,23 @@ exports.updateRecords = (req, res) => {
         Records.findByIdAndUpdate(recordResp._id, req.body, { useFindAndModify: false })
           .then((data) => {
             if (!data) {
-              res.status(404).send({
-                message: `Cannot update record with nick=${record.nick}`,
-              });
-            } else res.send({ message: "Record was updated successfully." });
+              res.status(404).send(`Cannot update record with nick=${record.nick}. Empty data`);
+            } else res.send("Your record was updated successfully");
           })
           .catch((err) => {
-            res.status(500).send({
-              message: "Error updating User with nick: " + record.nick + ".Error:" + err,
-            });
+            res.status(500).send("Error:" + err);
           });
       } else {
-        res.status(200).send({ message: "Time not better than best" });
+        res.status(200).send("Actual score not better than your best result");
       }
     } else {
       record
         .save(record)
         .then((data) => {
-          res.send(data);
+          res.send("Correct saved data");
         })
         .catch((err) => {
-          res.status(500).send({
-            message: err.message || "Some error occurred while creating the User.",
-          });
+          res.status(500).send(err.message || "Unknown error occurred while creating record data");
         });
     }
   });

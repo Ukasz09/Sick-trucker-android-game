@@ -2,18 +2,14 @@ package com.github.ukasz09.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ukasz09.Hud;
@@ -29,6 +25,10 @@ public class GameWonPage extends Activity {
     private RequestQueue mRequestQueue;
     private MediaPlayer applauseSoundPlayer;
 
+    private TextView errTextView;
+    private TextView successTextView;
+    private Button tryAgainSaveBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,20 @@ public class GameWonPage extends Activity {
         applauseSoundPlayer.start();
         setTimeResult();
         putRankingData();
+        initConnectionStatusElem();
+        hideConnectionStatusElem();
+    }
+
+    private void initConnectionStatusElem() {
+        errTextView = findViewById(R.id.errorDataSavingText);
+        successTextView = findViewById(R.id.successfulDataSavingText);
+        tryAgainSaveBtn = findViewById(R.id.tryAgainSaveResultBtn);
+    }
+
+    private void hideConnectionStatusElem() {
+        errTextView.setVisibility(View.GONE);
+        successTextView.setVisibility(View.GONE);
+        tryAgainSaveBtn.setVisibility(View.GONE);
     }
 
     private void initApplauseEffect() {
@@ -65,14 +79,8 @@ public class GameWonPage extends Activity {
 
     private void putRankingData() {
         StringRequest postRequest = new StringRequest(Request.Method.PUT, getRecordsEndpoint(),
-                response -> {
-                    // response
-                    System.out.println(response);
-                },
-                error -> {
-                    // error
-                    System.err.println("ER");
-                }
+                this::onSuccessfulDataUpdate,
+                error -> onDataUpdateError(error.getMessage())
         ) {
             @Override
             protected Map<String, String> getParams() {
@@ -84,6 +92,24 @@ public class GameWonPage extends Activity {
             }
         };
         mRequestQueue.add(postRequest);
+    }
+
+    public void onTryAgainSaveBtnClick(View view) {
+        putRankingData();
+    }
+
+    private void onDataUpdateError(String errMsg) {
+        hideConnectionStatusElem();
+        errTextView.setText(errMsg);
+        errTextView.setVisibility(View.VISIBLE);
+        tryAgainSaveBtn.setVisibility(View.VISIBLE);
+    }
+
+    private void onSuccessfulDataUpdate(String response) {
+        System.out.println("SUCCESS:" + response + "," + Player.nick + "," + Hud.timeMs);
+        hideConnectionStatusElem();
+        successTextView.setText(response);
+        successTextView.setVisibility(View.VISIBLE);
     }
 
     private static String getRecordsEndpoint() {
