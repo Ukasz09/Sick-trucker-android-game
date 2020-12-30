@@ -87,7 +87,7 @@ public class GameApp extends ApplicationAdapter {
     private void initBackgroundSound() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/play-background.mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setVolume(0.7f);
     }
 
     @Override

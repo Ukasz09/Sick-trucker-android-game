@@ -26,4 +26,5 @@
     <string name="unknown_nick">unknown_nick</string>
     <string name="you_win">YOU WIN</string>
     <string name="play_again">Play again</string>
+    <string name="instruction_goal_text">AND DON\'T FORGET - AVOID LAVA AND COLLECT THE KEY!</string>
 </resources>

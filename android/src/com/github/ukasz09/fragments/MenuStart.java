@@ -93,6 +93,11 @@ public class MenuStart extends FragmentActivity implements BottomNavigationView.
 
     public void closeApp(View view) {
         finish();
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+        System.exit(0);
     }
 
     public void replaceFragmentToHome(View view) {

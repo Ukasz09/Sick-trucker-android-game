@@ -24,7 +24,7 @@ public class Player {
     private static final float PLAYER_START_X = 60f;
     private static final float PLAYER_START_Y = 100f;
     private static final float IDLE_FRAME_DURATION = 0.045f, MOVING_FRAME_DURATION = 0.03f;
-    public static final float GAS_PRESSED_SOUND_VOLUME = 0.7f, BACKWARD_ENGINE_SOUND_VOLUME = 0.7f;
+    public static final float GAS_PRESSED_SOUND_VOLUME = 0.5f, BACKWARD_ENGINE_SOUND_VOLUME = 0.5f, IDLE_ENGINE_SOUND_VOLUME = 0.8f;
 
     public static String nick = "unknown";
     public static String logoPath = "user_logo_1";
@@ -155,6 +155,7 @@ public class Player {
     private void initSoundsEffects() {
         startEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_start.wav"));
         idleEngineMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/engine_idle.wav"));
+        idleEngineMusic.setVolume(IDLE_ENGINE_SOUND_VOLUME);
         idleEngineMusic.setLooping(true);
         gasPressedEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_pedal_pressed.wav"));
         backwardEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/engine_backward.wav"));
