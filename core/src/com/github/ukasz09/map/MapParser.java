@@ -11,12 +11,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.github.ukasz09.GameApp;
 import com.github.ukasz09.map.mapObjects.Bounds;
 import com.github.ukasz09.map.mapObjects.DangerZone;
+import com.github.ukasz09.map.mapObjects.GoldKey;
 import com.github.ukasz09.map.mapObjects.Ground;
 
 public class MapParser {
     private static final String MAP_LAYER_NAME_GROUND = "ground";
     private static final String MAP_LAYER_NAME_BOUNDS = "bounds";
     private static final String MAP_LAYER_NAME_DANGERS = "danger";
+    private static final String MAP_LAYER_NAME_GOLD_KEY = "goldKey";
 
     public static void parseMapLayers(World world, TiledMap tiledMap) {
         for (MapLayer layer : tiledMap.getLayers()) {
@@ -39,6 +41,10 @@ public class MapParser {
                 break;
             case MAP_LAYER_NAME_DANGERS:
                 new DangerZone(world, shape);
+                break;
+            case MAP_LAYER_NAME_GOLD_KEY:
+                new GoldKey(world, shape);
+                break;
         }
     }
 

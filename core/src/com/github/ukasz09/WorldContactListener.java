@@ -6,11 +6,14 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.github.ukasz09.map.mapObjects.DangerZone;
+import com.github.ukasz09.map.mapObjects.GoldKey;
 import com.github.ukasz09.player.Player;
 
 public class WorldContactListener implements ContactListener {
+    private GameApp gameApp;
 
-    public WorldContactListener() {
+    public WorldContactListener(GameApp gameApp) {
+        this.gameApp = gameApp;
     }
 
     @Override
@@ -22,7 +25,10 @@ public class WorldContactListener implements ContactListener {
         Player player = (Player) fb.getUserData();
         if (isDangerContact(fa, fb)) {
             player.destroy();
+        } else if (isGoldKeyContact(fa, fb)) {
+            gameApp.showWonGameActivity();
         }
+
     }
 
     @Override
@@ -32,6 +38,10 @@ public class WorldContactListener implements ContactListener {
 
     private boolean isDangerContact(Fixture a, Fixture b) {
         return (a.getUserData() instanceof DangerZone && b.getUserData() instanceof Player);
+    }
+
+    private boolean isGoldKeyContact(Fixture a, Fixture b) {
+        return (a.getUserData() instanceof GoldKey && b.getUserData() instanceof Player);
     }
 
     @Override

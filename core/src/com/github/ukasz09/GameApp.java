@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
 import com.github.ukasz09.map.MapParser;
 import com.github.ukasz09.player.Player;
 
@@ -56,7 +57,7 @@ public class GameApp extends ApplicationAdapter {
         hud = new Hud(batch, camera);
         initBackgroundSound();
         backgroundMusic.play();
-//        wonGamePageActivityBridge.showActivity();
+//        test();
     }
 
     private void initCamera() {
@@ -67,7 +68,7 @@ public class GameApp extends ApplicationAdapter {
     private void initWorld() {
         Vector2 gravityVector = new Vector2(GRAVITY_VELOCITY_X, GRAVITY_VELOCITY_Y);
         world = new World(gravityVector, false);
-        world.setContactListener(new WorldContactListener());
+        world.setContactListener(new WorldContactListener(this));
         tiledMap = new TmxMapLoader().load(MAP_PATH);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         MapParser.parseMapLayers(world, tiledMap);
@@ -91,7 +92,9 @@ public class GameApp extends ApplicationAdapter {
 
     @Override
     public void render() {
+        world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         update();
+        batch.setProjectionMatrix(camera.combined);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.render();
         batch.begin();
@@ -102,11 +105,9 @@ public class GameApp extends ApplicationAdapter {
     }
 
     private void update() {
-        world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-        inputUpdate();
         cameraUpdate();
         tiledMapRenderer.setView(camera);
-        batch.setProjectionMatrix(camera.combined);
+        inputUpdate();
         player.updateAnimation(TIME_STEP);
         hud.update();
     }
@@ -236,5 +237,21 @@ public class GameApp extends ApplicationAdapter {
         player.setRotationDegrees(rotationDegrees);
         float radians = (float) (rotationDegrees * DEGREES_TO_RADIANS);
         player.getBody().setTransform(player.getBody().getWorldCenter(), radians);
+    }
+
+    private void test() {
+        Timer x = new Timer();
+        x.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                showWonGameActivity();
+            }
+        }, 5f);
+    }
+
+    public void showWonGameActivity() {
+        player.stopSoundsEffects();
+        backgroundMusic.stop();
+        wonGamePageActivityBridge.showActivity();
     }
 }

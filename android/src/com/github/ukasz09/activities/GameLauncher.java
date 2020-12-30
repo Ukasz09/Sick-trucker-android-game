@@ -14,6 +14,7 @@ public class GameLauncher extends AndroidApplication {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+//        config.useImmersiveMode = true;
         MenuStart.stopBackgroundSound();
         initialize(new GameApp(new GameWonPageBridge(this)), config);
     }

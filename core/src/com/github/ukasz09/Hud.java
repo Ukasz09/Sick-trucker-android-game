@@ -23,6 +23,7 @@ public class Hud {
         this.batch = batch;
         this.camera = camera;
         initLogoTexture();
+        timeMs = 0;
     }
 
     private void initLogoTexture() {
@@ -38,6 +39,7 @@ public class Hud {
         drawUserNick();
         drawTime();
         drawFPS();
+//        drawHomeBtn(); //TODO:
     }
 
     private void drawUserLogo() {
