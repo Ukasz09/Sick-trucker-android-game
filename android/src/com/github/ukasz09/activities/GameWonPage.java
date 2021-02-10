@@ -63,7 +63,7 @@ public class GameWonPage extends Activity {
     public void setTimeResult() {
         TextView resultTime = findViewById(R.id.resultTimeLabel);
         String prefix = "Time: ";
-        String timeText = prefix + Hud.timeMs + " " + Hud.TIME_UNIT;
+        String timeText = prefix + Hud.timeSec + " " + Hud.TIME_UNIT;
         resultTime.setText(timeText);
     }
 
@@ -87,7 +87,7 @@ public class GameWonPage extends Activity {
                 Map<String, String> params = new HashMap<>();
                 params.put("logoUrl", Player.logoPath);
                 params.put("nick", Player.nick);
-                params.put("time", String.valueOf(Hud.timeMs));
+                params.put("time", String.valueOf(Hud.timeSec));
                 return params;
             }
         };
@@ -106,7 +106,6 @@ public class GameWonPage extends Activity {
     }
 
     private void onSuccessfulDataUpdate(String response) {
-        System.out.println("SUCCESS:" + response + "," + Player.nick + "," + Hud.timeMs);
         hideConnectionStatusElem();
         successTextView.setText(response);
         successTextView.setVisibility(View.VISIBLE);

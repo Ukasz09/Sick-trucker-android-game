@@ -11,19 +11,19 @@ public class Hud {
     private static final float PLAYER_LOGO_SIZE = 40f;
     private static final float HUD_PADDING = 10f;
     private static final float TIME_LABEL_WIDTH = 150f;
-    public static final String TIME_UNIT = "ms";
+    public static final String TIME_UNIT = "s";
 
     private BitmapFont font = new BitmapFont();
     private Batch batch;
     private OrthographicCamera camera;
     private Texture playerLogoTexture;
-    public static float timeMs = 0;
+    public static float timeSec = 0;
 
     public Hud(Batch batch, OrthographicCamera camera) {
         this.batch = batch;
         this.camera = camera;
         initLogoTexture();
-        timeMs = 0;
+        timeSec = 0;
     }
 
     private void initLogoTexture() {
@@ -65,7 +65,7 @@ public class Hud {
     private void drawTime() {
         float posX = getTimePosX();
         float posY = getTimePosY();
-        String timeText = "Time: " + timeMs + " ms";
+        String timeText = "Time: " + timeSec + " ms";
         font.draw(batch, timeText, posX, posY);
     }
 
@@ -85,10 +85,10 @@ public class Hud {
     }
 
     public void update() {
-        timeMs += Gdx.graphics.getDeltaTime();
+        timeSec += Gdx.graphics.getDeltaTime();
     }
 
     public void resetTimer() {
-        timeMs = 0;
+        timeSec = 0;
     }
 }

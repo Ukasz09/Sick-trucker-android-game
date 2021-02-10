@@ -4,7 +4,7 @@
   "description": "API for android game 'sick biker'",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js --host 192.168.2.108 --port 5200"
+    "start": "nodemon app.js --host 192.168.2.103 --port 5200"
   },
   "author": "Łukasz Gajerski (Ukasz09)",
   "license": "ISC",
